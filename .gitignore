@@ -1,2 +1,7 @@
-\venv
+/venv
 settings.py
+.env
+*.pyc
+__pycache__
+*.env
+.vscode
