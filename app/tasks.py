@@ -1,35 +1,67 @@
+# tasks
+from __future__ import absolute_import, unicode_literals
+from celery import Celery
+from celery import app, shared_task
+
+# scraping
 import requests
 import pandas as pd
 from bs4 import BeautifulSoup
 from collections import defaultdict
-import nfl_team_lists
-from celery import Celery
-from celery.schedules import crontab
-# from models import *
+from app.nfl_team_lists import nfl_teams
 
-app = Celery('tasks') # defining the app name to be used in our flag
+# job model
+from .models import EspnPassingStats
 
-app.conf.timezone = 'UTC'
+# logging
+from celery.utils.log import get_task_logger
 
-app.conf.beat_schedule = {
-    # executes every 1 minute
-    'scraping-task-one-min': {
-        'task': 'tasks.espn_team_player_stats',
-        'schedule': crontab(),
-    },
-    # # executes every 15 minutes
-    # 'scraping-task-fifteen-min': {
-    #     'task': 'tasks.hackernews_rss',
-    #     'schedule': crontab(minute='*/15')
-    # },
-    # # executes daily at midnight
-    # 'scraping-task-midnight-daily': {
-    #     'task': 'tasks.hackernews_rss',
-    #     'schedule': crontab(minute=0, hour=0)
-    # }
-}
+logger = get_task_logger(__name__)
 
-@app.task
+
+# persisting data
+@shared_task
+def save_espn_stats(espn_stat_dict):
+    print(espn_stat_dict.keys())
+
+    passing_list = espn_stat_dict['Passing']
+    receiving_list = espn_stat_dict["Receiving"]
+    rushing_list = espn_stat_dict["Rushing"]
+    defense_list = espn_stat_dict["Defense"]
+
+    for pass_stat in passing_list:
+        try:
+            udpated_values = {
+                "player_full_name": pass_stat["Player Name"],
+                "team_full": pass_stat["TEAM_FULL"],
+                "team_abrv": pass_stat["TEAM"],
+                "season": "2022 Regular Season",
+                "gp": pass_stat["GP"],
+                "cmp": pass_stat["CMP"],
+                "att": pass_stat["ATT"],
+                "cmp_percent": pass_stat["CMP%"],
+                "yds": pass_stat["YDS"],
+                "avg": pass_stat["AVG"],
+                "yds_g": pass_stat["YDS/G"],
+                "lng": pass_stat["LNG"],
+                "td": pass_stat["TD"],
+                "int": pass_stat["INT"],
+                "sack": pass_stat["SACK"],
+                "syl": pass_stat["SYL"],
+                "rtg": pass_stat["RTG"]
+            }
+            obj, created = EspnPassingStats.objects.update_or_create(
+                player_full_name = pass_stat["Player Name"],
+                team_abrv = pass_stat["TEAM"],
+                defaults=udpated_values
+            )
+        except Exception as e:
+                print('failed to persist passing stat')
+                print(e)
+                break
+
+# webscraping
+@shared_task
 def espn_team_player_stats():
     print(f"ESPN NFL Web Scrape Initiated")
     # print(nfl_teams)
@@ -37,7 +69,7 @@ def espn_team_player_stats():
     espn_stat_dict = defaultdict(list)
     try:
 
-        for team in nfl_team_lists.nfl_teams:
+        for team in nfl_teams:
             URL = f'https://www.espn.com/nfl/team/stats/_/name/{team[0]}/{team[1]}'
             page = requests.get(URL)
             # print(page)
@@ -98,14 +130,14 @@ def espn_team_player_stats():
                     df = pd.DataFrame.from_dict(d, orient="index", columns=columns)
                       
                     # add team column
-                    df["TEAM"] = team[0].upper()    
+                    df["TEAM"] = team[0].upper()
+                    df["TEAM_FULL"] = team[1]
 
                     df_to_dict = df.to_dict('records')
 
                     espn_stat_dict[table_title].extend(df_to_dict)
-        print(espn_stat_dict["Passing"][0])
-        return espn_stat_dict
+        # print(espn_stat_dict["Passing"][0])
+        return save_espn_stats(espn_stat_dict)
     except Exception as e:
         print('The nfl web scrape job failed. See exception:')
         print(e)
-    
