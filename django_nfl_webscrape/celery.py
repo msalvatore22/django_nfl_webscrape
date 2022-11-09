@@ -17,7 +17,7 @@ app.autodiscover_tasks()
 app.conf.beat_schedule = {
     # executes every 1 minute
     'scraping-task-one-min': {
-        'task': 'app.tasks.espn_team_player_stats',
+        'task': 'espn_webscrape.tasks.espn_team_player_stats',
         'schedule': crontab(),
     },
     # # executes every 15 minutes

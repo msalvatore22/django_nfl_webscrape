@@ -84,3 +84,4 @@ class EspnDefenseStats(models.Model):
   fr = models.SmallIntegerField()
   ftd = models.SmallIntegerField()
   kb = models.SmallIntegerField()
+
