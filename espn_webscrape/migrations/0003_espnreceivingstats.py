@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('app', '0002_alter_espndefensestats_table_and_more'),
+        ('espn_webscrape', '0002_alter_espndefensestats_table_and_more'),
     ]
 
     operations = [

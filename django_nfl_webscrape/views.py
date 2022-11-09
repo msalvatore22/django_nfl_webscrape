@@ -2,7 +2,7 @@
 from django.shortcuts import render
 from django.views import generic
 
-from app.models import EspnPassingStats # bring News into the views
+from espn_webscrape.models import EspnPassingStats # bring News into the views
 
 # Create your views here.
 
