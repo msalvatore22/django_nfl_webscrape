@@ -11,12 +11,17 @@ from django.views.generic import (
 from .models import EspnPassingStats
 
 # Create your views here.
+def index_view(request, *args, **kwargs):
+  my_context = {
+  }
+  return render(request, "index.html", my_context)
+
 class PassingListView(ListView):
-    template_name = 'espn_webscrape/passing/passing_list.html'
+    template_name = 'passing/passing_list.html'
     queryset = EspnPassingStats.objects.all() # <blog>/<modelname>_list.html
 
 class PassingDetailView(DetailView):
-    template_name = 'espn_webscrape/passing/passing_detail.html'
+    template_name = 'passing/passing_detail.html'
     #queryset = Article.objects.all()
 
     def get_object(self):
