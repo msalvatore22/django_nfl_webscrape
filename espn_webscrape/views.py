@@ -8,7 +8,7 @@ from django.views.generic import (
     DeleteView
 )
 
-from .models import EspnPassingStats
+from .models import EspnPassingStats, EspnRushingStats
 
 # Create your views here.
 def index_view(request, *args, **kwargs):
@@ -27,3 +27,15 @@ class PassingDetailView(DetailView):
     def get_object(self):
         id_ = self.kwargs.get("id")
         return get_object_or_404(EspnPassingStats, id=id_)
+
+class RushingListView(ListView):
+    template_name = 'rushing/rushing_list.html'
+    queryset = EspnRushingStats.objects.all() # <blog>/<modelname>_list.html
+
+class RushingDetailView(DetailView):
+    template_name = 'rushing/rushing_detail.html'
+    #queryset = Article.objects.all()
+
+    def get_object(self):
+        id_ = self.kwargs.get("id")
+        return get_object_or_404(EspnRushingStats, id=id_)

@@ -58,98 +58,98 @@ def save_espn_stats(espn_stat_dict):
                 print(e)
                 break
     
-    # for rec_stat in receiving_list:
-    #     try:
-    #         udpated_values = {
-    #             "player_full_name": rec_stat["Player Name"],
-    #             "team_full": rec_stat["TEAM_FULL"],
-    #             "team_abrv": rec_stat["TEAM"],
-    #             "season": "2022 Regular Season",
-    #             "gp": rec_stat["GP"],
-    #             "rec": rec_stat["REC"],
-    #             "tgts": rec_stat["TGTS"],
-    #             "yds": rec_stat["YDS"],
-    #             "avg": rec_stat["AVG"],
-    #             "yds_g": rec_stat["YDS/G"],
-    #             "lng": rec_stat["LNG"],
-    #             "td": rec_stat["TD"],
-    #             "big": rec_stat["BIG"],
-    #             "fum": rec_stat["FUM"],
-    #             "lst": rec_stat["LST"],
-    #             "yac": rec_stat["YAC"],
-    #             "fd": rec_stat["FD"]
-    #         }
-    #         obj, created = EspnReceivingStats.objects.update_or_create(
-    #             player_full_name = rec_stat["Player Name"],
-    #             team_abrv = rec_stat["TEAM"],
-    #             defaults=udpated_values
-    #         )
-    #     except Exception as e:
-    #             print('failed to persist passing stat')
-    #             print(e)
-    #             break
+    for rec_stat in receiving_list:
+        try:
+            udpated_values = {
+                "player_full_name": rec_stat["Player Name"],
+                "team_full": rec_stat["TEAM_FULL"],
+                "team_abrv": rec_stat["TEAM"],
+                "season": "2022 Regular Season",
+                "gp": rec_stat["GP"],
+                "rec": rec_stat["REC"],
+                "tgts": rec_stat["TGTS"],
+                "yds": rec_stat["YDS"],
+                "avg": rec_stat["AVG"],
+                "yds_g": rec_stat["YDS/G"],
+                "lng": rec_stat["LNG"],
+                "td": rec_stat["TD"],
+                "big": rec_stat["BIG"],
+                "fum": rec_stat["FUM"],
+                "lst": rec_stat["LST"],
+                "yac": rec_stat["YAC"],
+                "fd": rec_stat["FD"]
+            }
+            obj, created = EspnReceivingStats.objects.update_or_create(
+                player_full_name = rec_stat["Player Name"],
+                team_abrv = rec_stat["TEAM"],
+                defaults=udpated_values
+            )
+        except Exception as e:
+                print('failed to persist passing stat')
+                print(e)
+                break
     
-    # for rush_stat in rushing_list:
-    #     try:
-    #         udpated_values = {
-    #             "player_full_name": rush_stat["Player Name"],
-    #             "team_full": rush_stat["TEAM_FULL"],
-    #             "team_abrv": rush_stat["TEAM"],
-    #             "season": "2022 Regular Season",
-    #             "gp": rush_stat["GP"],
-    #             "att": rush_stat["ATT"],
-    #             "yds": rush_stat["YDS"],
-    #             "avg": rush_stat["AVG"],
-    #             "yds_g": rush_stat["YDS/G"],
-    #             "lng": rush_stat["LNG"],
-    #             "td": rush_stat["TD"],
-    #             "big": rush_stat["BIG"],
-    #             "fum": rush_stat["FUM"],
-    #             "lst": rush_stat["LST"],
-    #             "fd": rush_stat["FD"]
-    #         }
-    #         obj, created = EspnRushingStats.objects.update_or_create(
-    #             player_full_name = rush_stat["Player Name"],
-    #             team_abrv = rush_stat["TEAM"],
-    #             defaults=udpated_values
-    #         )
-    #     except Exception as e:
-    #             print('failed to persist passing stat')
-    #             print(e)
-    #             break
-
-    # for def_stat in defense_list:
-    #     try:
-    #         udpated_values = {
-    #             "player_full_name": def_stat["Player Name"],
-    #             "team_full": def_stat["TEAM_FULL"],
-    #             "team_abrv": def_stat["TEAM"],
-    #             "season": "2022 Regular Season",
-    #             "gp": def_stat["GP"],
-    #             "solo": def_stat["SOLO"],
-    #             "ast": def_stat["AST"],
-    #             "tot": def_stat["TOT"],
-    #             "sack": def_stat["SACK"],
-    #             "sack_yds": def_stat["SACK/YDS"],
-    #             "pd": def_stat["PD"],
-    #             "int": def_stat["INT"],
-    #             "yds": def_stat["YDS"],
-    #             "lng": def_stat["LNG"],
-    #             "td": def_stat["TD"],
-    #             "ff": def_stat["FF"],
-    #             "fr": def_stat["FR"],
-    #             "ftd": def_stat["FTD"],
-    #             "kb": def_stat["KB"]
-    #         }
-    #         obj, created = EspnDefenseStats.objects.update_or_create(
-    #             player_full_name = def_stat["Player Name"],
-    #             team_abrv = def_stat["TEAM"],
-    #             defaults=udpated_values
-    #         )
-    #     except Exception as e:
-    #             print('failed to persist passing stat')
-    #             print(e)
-    #             break
+    for rush_stat in rushing_list:
+        try:
+            udpated_values = {
+                "player_full_name": rush_stat["Player Name"],
+                "team_full": rush_stat["TEAM_FULL"],
+                "team_abrv": rush_stat["TEAM"],
+                "season": "2022 Regular Season",
+                "gp": rush_stat["GP"],
+                "att": rush_stat["ATT"],
+                "yds": rush_stat["YDS"],
+                "avg": rush_stat["AVG"],
+                "yds_g": rush_stat["YDS/G"],
+                "lng": rush_stat["LNG"],
+                "td": rush_stat["TD"],
+                "big": rush_stat["BIG"],
+                "fum": rush_stat["FUM"],
+                "lst": rush_stat["LST"],
+                "fd": rush_stat["FD"]
+            }
+            obj, created = EspnRushingStats.objects.update_or_create(
+                player_full_name = rush_stat["Player Name"],
+                team_abrv = rush_stat["TEAM"],
+                defaults=udpated_values
+            )
+        except Exception as e:
+                print('failed to persist passing stat')
+                print(e)
+                break
+    
+    for def_stat in defense_list:
+        try:
+            udpated_values = {
+                "player_full_name": def_stat["Player Name"],
+                "team_full": def_stat["TEAM_FULL"],
+                "team_abrv": def_stat["TEAM"],
+                "season": "2022 Regular Season",
+                "gp": def_stat["GP"],
+                "solo": def_stat["SOLO"],
+                "ast": def_stat["AST"],
+                "tot": def_stat["TOT"],
+                "sack": def_stat["SACK"],
+                "sack_yds": def_stat["SACKYDS"],
+                "pd": def_stat["PD"],
+                "int": def_stat["INT"],
+                "yds": def_stat["YDS"],
+                "lng": def_stat["LNG"],
+                "td": def_stat["TD"],
+                "ff": def_stat["FF"],
+                "fr": def_stat["FR"],
+                "ftd": def_stat["FTD"],
+                "kb": def_stat["KB"]
+            }
+            obj, created = EspnDefenseStats.objects.update_or_create(
+                player_full_name = def_stat["Player Name"],
+                team_abrv = def_stat["TEAM"],
+                defaults=udpated_values
+            )
+        except Exception as e:
+                print('failed to persist passing stat')
+                print(e)
+                break
 
 # webscraping
 @shared_task

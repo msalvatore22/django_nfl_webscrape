@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<p>this is from espn webscrape app</p>
+{% for instance in object_list %}
+     <p>{{ instance.id }} - <a href='{{ instance.get_absolute_url }}'>{{ instance.player_full_name }}</a></p>
+     <!-- <p>{{ instance.id }} - {{ instance.player_full_name }}</p> -->
+{% endfor %}
+
+
+{% endblock %}

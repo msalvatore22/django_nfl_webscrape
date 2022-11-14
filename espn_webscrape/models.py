@@ -64,6 +64,8 @@ class EspnRushingStats(models.Model):
   fum = models.SmallIntegerField()
   lst = models.SmallIntegerField()
   fd = models.SmallIntegerField()
+  def get_absolute_url(self):
+    return reverse("espn_webscrape:rushing-detail", kwargs={"id": self.id})
   
 class EspnDefenseStats(models.Model):
   class Meta:
