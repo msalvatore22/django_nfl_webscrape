@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 # Create your models here.
 class EspnPassingStats(models.Model):
@@ -21,6 +22,8 @@ class EspnPassingStats(models.Model):
   sack = models.SmallIntegerField()
   syl = models.SmallIntegerField()
   rtg = models.DecimalField(max_digits=5, decimal_places=2)
+  def get_absolute_url(self):
+    return reverse("espn_webscrape:passing-detail", kwargs={"id": self.id})
 
 class EspnReceivingStats(models.Model):
   class Meta:
