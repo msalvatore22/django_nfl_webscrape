@@ -8,7 +8,7 @@ import requests
 import pandas as pd
 from bs4 import BeautifulSoup
 from collections import defaultdict
-from espn_webscrape.nfl_team_lists import nfl_teams
+from .apps import EspnWebscrapeConfig
 
 # model
 from .models import EspnDefenseStats, EspnPassingStats, EspnReceivingStats, EspnRushingStats
@@ -134,7 +134,7 @@ def save_espn_stats(espn_stat_dict):
                 "ast": def_stat["AST"],
                 "tot": def_stat["TOT"],
                 "sack": def_stat["SACK"],
-                "sack_yds": def_stat["SACKYDS"],
+                "sack_yds": def_stat["SCKYDS"],
                 "pd": def_stat["PD"],
                 "int": def_stat["INT"],
                 "yds": def_stat["YDS"],
@@ -151,7 +151,7 @@ def save_espn_stats(espn_stat_dict):
                 defaults=udpated_values
             )
         except Exception as e:
-                print('failed to persist passing stat')
+                print('failed to persist defense stat')
                 print(e)
                 break
 
@@ -164,8 +164,8 @@ def espn_team_player_stats():
     espn_stat_dict = defaultdict(list)
     try:
 
-        for team in nfl_teams:
-            URL = f'https://www.espn.com/nfl/team/stats/_/name/{team[0]}/{team[1]}'
+        for team in EspnWebscrapeConfig.nfl_teams:
+            URL = f'https://www.espn.com/nfl/team/stats/_/name/{team[1]}/{team[0]}'
             page = requests.get(URL)
             # print(page)
             soup = BeautifulSoup(page.content, "html.parser")
@@ -192,7 +192,8 @@ def espn_team_player_stats():
                             player_text = player.text
                             player_name = player_text[:-3]
                             player_position = player_text[-2:]
-                            player_list.append((player_name, player_position))  
+                            player_list.append((player_name, player_position)) 
+
                     # grab the stat headers that will be the columns of the data frame
                     stat_table = tables[1]
                     stat_headers = stat_table.find_all("th", class_="stats-cell")
@@ -224,8 +225,8 @@ def espn_team_player_stats():
                     df = pd.DataFrame.from_dict(d, orient="index", columns=columns)
                       
                     # add team column
-                    df["TEAM"] = team[0].upper()
-                    df["TEAM_FULL"] = team[1]
+                    df["TEAM"] = team[1].upper()
+                    df["TEAM_FULL"] = team[0].replace('-', ' ').title()
 
                     df_to_dict = df.to_dict('records')
 

@@ -1,4 +1,36 @@
 from django.apps import AppConfig
 
-class ScrapingConfig(AppConfig):
+class EspnWebscrapeConfig(AppConfig):
     name = 'espn_webscrape'
+    nfl_teams = [("arizona-cardinals","ari"),
+  ("atlanta-falcons","atl"),
+  ("baltimore-ravens","bal"),
+  ("buffalo-bills","buf"),
+  ("carolina-panthers","car"),
+  ("chicago-bears","chi"),
+  ("cincinnati-bengals","cin"),
+  ("cleveland-browns","cle"),
+  ("dallas-cowboys","dal"),
+  ("denver-broncos","den"),
+  ("detroit-lions","det"),
+  ("green-bay-packers","gb"),
+  ("houston-texans","hou"),
+  ("indianapolis-colts","ind"),
+  ("jacksonville-jaguars","jax"),
+  ("kansas-city-chiefs","kc"),
+  ("las-vegas-raiders","lv"),
+  ("los-angeles-chargers","lac"),
+  ("los-angeles-rams","lar"),
+  ("miami-dolphins","mia"),
+  ("minnesota-vikings","min"),
+  ("new-england-patriots","pat"),
+  ("new-orleans-saints","no"),
+  ("new-york-giants","nyg"),
+  ("new-york-jets","nyj"),
+  ("philadelphia-eagles","phi"),
+  ("pittsburgh-steelers","pit"),
+  ("san-francisco-49ers","sf"),
+  ("seattle-seahawks","sea"),
+  ("tampa-bay-buccaneers","tb"),
+  ("tennessee-titans","ten"),
+  ("washington-commanders","wsh")]

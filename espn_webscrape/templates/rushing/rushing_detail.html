@@ -1,6 +1,45 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>{{ object.player_full_name }}</h1>
-<p>{{ object.td }}</p>
+<div class="container" >
+  <h1>{{ object.player_full_name }}</h1>
+  <h2>{{ object.team_full }}</h2>
+</div>
+<div class="card text-center">
+  <h5 class="card-header">{{ object.season }}</h5>
+  <div class="card-body row align-items-center">
+    <div class="col">
+      <div class="row">
+        <p>ATT</p>
+      </div>
+      <div class="row">
+        <h3>{{ object.att }}</h3>
+      </div>
+    </div>
+    <div class="col">
+      <div class="row">
+        <p>YDS</p>
+      </div>
+      <div class="row">
+        <h3>{{ object.yds }}</h3>
+      </div>
+    </div>
+    <div class="col">
+      <div class="row">
+        <p>TD</p>
+      </div>
+      <div class="row">
+        <h3>{{ object.td }}</h3>
+      </div>
+    </div>
+    <div class="col">
+      <div class="row">
+        <p>AVG</p>
+      </div>
+      <div class="row">
+        <h3>{{ object.avg }}</h3>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
