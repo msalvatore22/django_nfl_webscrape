@@ -2,6 +2,7 @@ from django.urls import path
 from .views import (
     PassingListView,
     PassingDetailView,
+    PassingTableView,
     RushingListView,
     RushingDetailView,
     index_view
@@ -12,7 +13,7 @@ from .views import (
 app_name = 'espn_webscrape'
 urlpatterns = [
     path('', index_view),
-    path('passing/', PassingListView.as_view(), name='passing-list'),
+    path('passing/', PassingTableView.as_view(), name='passing-list'),
     
     # path('create/', ArticleCreateView.as_view(), name='article-create'),
     path('passing/<int:id>/', PassingDetailView.as_view(), name='passing-detail'),

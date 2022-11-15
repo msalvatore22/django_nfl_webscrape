@@ -20,6 +20,10 @@ class PassingListView(ListView):
     template_name = 'passing/passing_list.html'
     queryset = EspnPassingStats.objects.all() # <blog>/<modelname>_list.html
 
+class PassingTableView(ListView):
+    template_name = 'passing/passing_table.html'
+    queryset = EspnPassingStats.objects.filter(pos='QB').order_by('-yds').values() # <blog>/<modelname>_list.html
+
 class PassingDetailView(DetailView):
     template_name = 'passing/passing_detail.html'
     #queryset = Article.objects.all()

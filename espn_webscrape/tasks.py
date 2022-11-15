@@ -31,6 +31,7 @@ def save_espn_stats(espn_stat_dict):
         try:
             udpated_values = {
                 "player_full_name": pass_stat["Player Name"],
+                "pos": pass_stat["POS"],
                 "team_full": pass_stat["TEAM_FULL"],
                 "team_abrv": pass_stat["TEAM"],
                 "season": "2022 Regular Season",
@@ -62,6 +63,7 @@ def save_espn_stats(espn_stat_dict):
         try:
             udpated_values = {
                 "player_full_name": rec_stat["Player Name"],
+                "pos": rec_stat["POS"],
                 "team_full": rec_stat["TEAM_FULL"],
                 "team_abrv": rec_stat["TEAM"],
                 "season": "2022 Regular Season",
@@ -93,6 +95,7 @@ def save_espn_stats(espn_stat_dict):
         try:
             udpated_values = {
                 "player_full_name": rush_stat["Player Name"],
+                "pos": rush_stat["POS"],
                 "team_full": rush_stat["TEAM_FULL"],
                 "team_abrv": rush_stat["TEAM"],
                 "season": "2022 Regular Season",
@@ -122,6 +125,7 @@ def save_espn_stats(espn_stat_dict):
         try:
             udpated_values = {
                 "player_full_name": def_stat["Player Name"],
+                "pos": def_stat["POS"],
                 "team_full": def_stat["TEAM_FULL"],
                 "team_abrv": def_stat["TEAM"],
                 "season": "2022 Regular Season",

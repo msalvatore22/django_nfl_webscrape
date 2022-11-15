@@ -6,6 +6,7 @@ class EspnPassingStats(models.Model):
   class Meta:
     db_table = 'espn_passing_stats'
   player_full_name = models.CharField(max_length=50)
+  pos = models.CharField(max_length=4, null=True)
   team_full = models.CharField(max_length=30)
   team_abrv = models.CharField(max_length=3)
   season = models.CharField(max_length=25)
@@ -29,6 +30,7 @@ class EspnReceivingStats(models.Model):
   class Meta:
     db_table = 'espn_receiving_stats'
   player_full_name = models.CharField(max_length=50)
+  pos = models.CharField(max_length=4, null=True)
   team_full = models.CharField(max_length=30)
   team_abrv = models.CharField(max_length=3)
   season = models.CharField(max_length=25)
@@ -50,6 +52,7 @@ class EspnRushingStats(models.Model):
   class Meta:
     db_table = 'espn_rushing_stats'
   player_full_name = models.CharField(max_length=50)
+  pos = models.CharField(max_length=4, null=True)
   team_full = models.CharField(max_length=30)
   team_abrv = models.CharField(max_length=3)
   season = models.CharField(max_length=25)
@@ -71,6 +74,7 @@ class EspnDefenseStats(models.Model):
   class Meta:
     db_table = 'espn_defense_stats'
   player_full_name = models.CharField(max_length=50)
+  pos = models.CharField(max_length=4, null=True)
   team_full = models.CharField(max_length=30)
   team_abrv = models.CharField(max_length=3)
   season = models.CharField(max_length=25)
