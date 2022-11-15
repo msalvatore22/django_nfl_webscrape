@@ -2,26 +2,6 @@
 {% load static %}
 
 {% block content %}
-
-<div class="row">
-    <table>
-        <tbody>
-            {% for st in passing_stats %}
-            <tr>
-                <td>
-                    <p>
-                        Player Name: {{ st.player_full_name }}
-                    </p>
-                </td>
-                <td>
-                    <p>
-                        Yards: {{ st.yds }}
-                    </p>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+<h1>Home</h1>
 
 {% endblock content %}

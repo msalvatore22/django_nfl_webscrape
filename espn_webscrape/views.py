@@ -18,11 +18,7 @@ def index_view(request, *args, **kwargs):
 
 class PassingListView(ListView):
     template_name = 'passing/passing_list.html'
-    queryset = EspnPassingStats.objects.all() # <blog>/<modelname>_list.html
-
-class PassingTableView(ListView):
-    template_name = 'passing/passing_table.html'
-    queryset = EspnPassingStats.objects.filter(pos='QB').order_by('-yds').values() # <blog>/<modelname>_list.html
+    queryset = EspnPassingStats.objects.filter(pos='QB').order_by('-yds') # <blog>/<modelname>_list.html
 
 class PassingDetailView(DetailView):
     template_name = 'passing/passing_detail.html'
@@ -34,7 +30,7 @@ class PassingDetailView(DetailView):
 
 class RushingListView(ListView):
     template_name = 'rushing/rushing_list.html'
-    queryset = EspnRushingStats.objects.all() # <blog>/<modelname>_list.html
+    queryset = EspnRushingStats.objects.all().order_by('-yds') # <blog>/<modelname>_list.html
 
 class RushingDetailView(DetailView):
     template_name = 'rushing/rushing_detail.html'

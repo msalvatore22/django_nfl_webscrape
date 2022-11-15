@@ -15,10 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-# from .views import HomePageView
+from .views import home_view
 
 urlpatterns = [
     path('espn_webscrape/', include('espn_webscrape.urls')),
-    # path('', HomePageView.as_view(), name='home'), # homepage
+    path('', home_view, name='home'), # homepage
     path('admin/', admin.site.urls),
 ]

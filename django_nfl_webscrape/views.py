@@ -7,10 +7,9 @@ from espn_webscrape.models import EspnPassingStats # bring News into the views
 # Create your views here.
 
 
-# class HomePageView(generic.ListView):
-#     template_name = 'home.html'
-#     context_object_name = 'passing_stats'
+def home_view(request, *args, **kwargs):
+  my_context = {
+  }
+  return render(request, "home.html", my_context)
 
-#     def get_queryset(self):
-#         return EspnPassingStats.objects.all()
 
