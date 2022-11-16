@@ -2,6 +2,185 @@
 {% load static %}
 
 {% block content %}
-<h1>Home</h1>
+<div class="row align-items-center mt-4">
+    <h1>Passing Leaders</h1>
+    <div class="col">
+        <h3>Completions</h3>
+          <ul class="list-group">
+            {% for instance in top_10_passing_cmp %}
+                <li class="list-group-item d-flex justify-content-between align-items-baseline">
+                    <div class="d-flex justify-content-start align-items-baseline">
+                        <p class="list-num-text">{{forloop.counter}}.</p>
+                        <a href='{{ instance.get_absolute_url }}'>{{ instance.player_full_name }}</a>
+                        <p class="pos-text">{{ instance.team_abrv }}</p></div>                     
+                    <span>{{instance.cmp}}</span>
+                </li>
+            {% endfor %}
+            </ul>
+    </div>
+    <div class="col">
+        <h3>Passing Yards</h3>
+        <ul class="list-group">
+          {% for instance in top_10_passing_yds %}
+              <li class="list-group-item d-flex justify-content-between align-items-baseline">
+                  <div class="d-flex justify-content-start align-items-baseline">
+                      <p class="list-num-text">{{forloop.counter}}.</p>
+                      <a href='{{ instance.get_absolute_url }}'>{{ instance.player_full_name }}</a>
+                      <p class="pos-text">{{ instance.team_abrv }}</p></div>                     
+                  <span>{{instance.yds}}</span>
+              </li>
+          {% endfor %}
+          </ul>
+    </div>
+    <div class="col">
+        <h3>Passing Touchdowns</h3>
+        <ul class="list-group">
+          {% for instance in top_10_passing_td %}
+              <li class="list-group-item d-flex justify-content-between align-items-baseline">
+                  <div class="d-flex justify-content-start align-items-baseline">
+                      <p class="list-num-text">{{forloop.counter}}.</p>
+                      <a href='{{ instance.get_absolute_url }}'>{{ instance.player_full_name }}</a>
+                      <p class="pos-text">{{ instance.team_abrv }}</p></div>                     
+                  <span>{{instance.td}}</span>
+              </li>
+          {% endfor %}
+          </ul>
+    </div>
+</div>
+<div class="row align-items-center mt-4">
+    <h1>Receiving Leaders</h1>
+    <div class="col">
+        <h3>Receiving Yards</h3>
+          <ul class="list-group">
+            {% for instance in top_10_receiving_yds %}
+                <li class="list-group-item d-flex justify-content-between align-items-baseline">
+                    <div class="d-flex justify-content-start align-items-baseline">
+                        <p class="list-num-text">{{forloop.counter}}.</p>
+                        <a href='{{ instance.get_absolute_url }}'>{{ instance.player_full_name }}</a>
+                        <p class="pos-text">{{ instance.team_abrv }}</p></div>                     
+                    <span>{{instance.yds}}</span>
+                </li>
+            {% endfor %}
+            </ul>
+    </div>
+    <div class="col">
+        <h3>Receptions</h3>
+        <ul class="list-group">
+          {% for instance in top_10_receiving_rec %}
+              <li class="list-group-item d-flex justify-content-between align-items-baseline">
+                  <div class="d-flex justify-content-start align-items-baseline">
+                      <p class="list-num-text">{{forloop.counter}}.</p>
+                      <a href='{{ instance.get_absolute_url }}'>{{ instance.player_full_name }}</a>
+                      <p class="pos-text">{{ instance.team_abrv }}</p></div>                     
+                  <span>{{instance.rec}}</span>
+              </li>
+          {% endfor %}
+          </ul>
+    </div>
+    <div class="col">
+        <h3>Receiving Touchdowns</h3>
+        <ul class="list-group">
+          {% for instance in top_10_receiving_td %}
+              <li class="list-group-item d-flex justify-content-between align-items-baseline">
+                  <div class="d-flex justify-content-start align-items-baseline">
+                      <p class="list-num-text">{{forloop.counter}}.</p>
+                      <a href='{{ instance.get_absolute_url }}'>{{ instance.player_full_name }}</a>
+                      <p class="pos-text">{{ instance.team_abrv }}</p></div>                     
+                  <span>{{instance.td}}</span>
+              </li>
+          {% endfor %}
+          </ul>
+    </div>
+<div class="row align-items-center mt-4">
+        <h1>Rushing Leaders</h1>
+        <div class="col">
+            <h3>Rushing Attempts</h3>
+              <ul class="list-group">
+                {% for instance in top_10_rushing_att %}
+                    <li class="list-group-item d-flex justify-content-between align-items-baseline">
+                        <div class="d-flex justify-content-start align-items-baseline">
+                            <p class="list-num-text">{{forloop.counter}}.</p>
+                            <a href='{{ instance.get_absolute_url }}'>{{ instance.player_full_name }}</a>
+                            <p class="pos-text">{{ instance.team_abrv }}</p></div>                     
+                        <span>{{instance.att}}</span>
+                    </li>
+                {% endfor %}
+                </ul>
+        </div>
+        <div class="col">
+            <h3>Rushing Yards</h3>
+            <ul class="list-group">
+              {% for instance in top_10_rushing_yds %}
+                  <li class="list-group-item d-flex justify-content-between align-items-baseline">
+                      <div class="d-flex justify-content-start align-items-baseline">
+                          <p class="list-num-text">{{forloop.counter}}.</p>
+                          <a href='{{ instance.get_absolute_url }}'>{{ instance.player_full_name }}</a>
+                          <p class="pos-text">{{ instance.team_abrv }}</p></div>                     
+                      <span>{{instance.yds}}</span>
+                  </li>
+              {% endfor %}
+              </ul>
+        </div>
+        <div class="col">
+            <h3>Rushing Touchdowns</h3>
+            <ul class="list-group">
+              {% for instance in top_10_rushing_td %}
+                  <li class="list-group-item d-flex justify-content-between align-items-baseline">
+                      <div class="d-flex justify-content-start align-items-baseline">
+                          <p class="list-num-text">{{forloop.counter}}.</p>
+                          <a href='{{ instance.get_absolute_url }}'>{{ instance.player_full_name }}</a>
+                          <p class="pos-text">{{ instance.team_abrv }}</p></div>                     
+                      <span>{{instance.td}}</span>
+                  </li>
+              {% endfor %}
+              </ul>
+        </div>
+</div>
+<div class="row align-items-center mt-4 mb-4">
+    <h1>Defense Leaders</h1>
+    <div class="col">
+        <h3>Tackles</h3>
+          <ul class="list-group">
+            {% for instance in top_10_defense_tot %}
+                <li class="list-group-item d-flex justify-content-between align-items-baseline">
+                    <div class="d-flex justify-content-start align-items-baseline">
+                        <p class="list-num-text">{{forloop.counter}}.</p>
+                        <a href='{{ instance.get_absolute_url }}'>{{ instance.player_full_name }}</a>
+                        <p class="pos-text">{{ instance.team_abrv }}</p></div>                     
+                    <span>{{instance.tot}}</span>
+                </li>
+            {% endfor %}
+            </ul>
+    </div>
+    <div class="col">
+        <h3>Sacks</h3>
+        <ul class="list-group">
+          {% for instance in top_10_defense_sack %}
+              <li class="list-group-item d-flex justify-content-between align-items-baseline">
+                  <div class="d-flex justify-content-start align-items-baseline">
+                      <p class="list-num-text">{{forloop.counter}}.</p>
+                      <a href='{{ instance.get_absolute_url }}'>{{ instance.player_full_name }}</a>
+                      <p class="pos-text">{{ instance.team_abrv }}</p></div>                     
+                  <span>{{instance.sack}}</span>
+              </li>
+          {% endfor %}
+          </ul>
+    </div>
+    <div class="col">
+        <h3>Interceptions</h3>
+        <ul class="list-group">
+          {% for instance in top_10_defense_int %}
+              <li class="list-group-item d-flex justify-content-between align-items-baseline">
+                  <div class="d-flex justify-content-start align-items-baseline">
+                      <p class="list-num-text">{{forloop.counter}}.</p>
+                      <a href='{{ instance.get_absolute_url }}'>{{ instance.player_full_name }}</a>
+                      <p class="pos-text">{{ instance.team_abrv }}</p></div>                     
+                  <span>{{instance.int}}</span>
+              </li>
+          {% endfor %}
+          </ul>
+    </div>
+</div>
+
 
 {% endblock content %}
