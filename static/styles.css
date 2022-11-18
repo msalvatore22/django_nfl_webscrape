@@ -7,3 +7,8 @@
   font-size: 14px;
   margin-right: 5px;
 }
+
+.th-sort {
+  cursor: pointer;
+  font-size: 20px;
+}
