@@ -47,6 +47,8 @@ class EspnReceivingStats(models.Model):
   lst = models.SmallIntegerField()
   yac = models.SmallIntegerField()
   fd = models.SmallIntegerField()
+  def get_absolute_url(self):
+    return reverse("espn_webscrape:receiving-detail", kwargs={"id": self.id})
 
 class EspnRushingStats(models.Model):
   class Meta:
@@ -82,10 +84,10 @@ class EspnDefenseStats(models.Model):
   solo = models.SmallIntegerField()
   ast = models.SmallIntegerField()
   tot = models.SmallIntegerField()
-  sack = models.DecimalField(max_digits=4, decimal_places=2)
+  sack = models.DecimalField(max_digits=4, decimal_places=1)
   sack_yds = models.SmallIntegerField()
   pd = models.SmallIntegerField()
-  int = models.DecimalField(max_digits=4, decimal_places=2)
+  int = models.SmallIntegerField()
   yds = models.SmallIntegerField()
   lng = models.SmallIntegerField()
   td = models.SmallIntegerField()
@@ -93,4 +95,6 @@ class EspnDefenseStats(models.Model):
   fr = models.SmallIntegerField()
   ftd = models.SmallIntegerField()
   kb = models.SmallIntegerField()
+  def get_absolute_url(self):
+    return reverse("espn_webscrape:defense-detail", kwargs={"id": self.id})
 

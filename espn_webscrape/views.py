@@ -93,26 +93,30 @@ def te_list_view(request, *args, **kwargs):
     }
     return render(request, 'player_stats/rec_list.html', my_context)
 
-class PassingListView(ListView):
-    template_name = 'passing/passing_list.html'
-    queryset = EspnRushingStats.objects.all().order_by('-yds') # <blog>/<modelname>_list.html
-
 class PassingDetailView(DetailView):
     template_name = 'passing/passing_detail.html'
-    #queryset = Article.objects.all()
 
     def get_object(self):
         id_ = self.kwargs.get("id")
         return get_object_or_404(EspnPassingStats, id=id_)
 
-class RushingListView(ListView):
-    template_name = 'rushing/rushing_list.html'
-    queryset = EspnRushingStats.objects.all().order_by('-yds') # <blog>/<modelname>_list.html
-
 class RushingDetailView(DetailView):
     template_name = 'rushing/rushing_detail.html'
-    #queryset = Article.objects.all()
 
     def get_object(self):
         id_ = self.kwargs.get("id")
         return get_object_or_404(EspnRushingStats, id=id_)
+
+class ReceivingDetailView(DetailView):
+    template_name = 'receiving/receiving_detail.html'
+
+    def get_object(self):
+        id_ = self.kwargs.get("id")
+        return get_object_or_404(EspnReceivingStats, id=id_)
+
+class DefenseDetailView(DetailView):
+    template_name = 'defense/defense_detail.html'
+
+    def get_object(self):
+        id_ = self.kwargs.get("id")
+        return get_object_or_404(EspnDefenseStats, id=id_)
