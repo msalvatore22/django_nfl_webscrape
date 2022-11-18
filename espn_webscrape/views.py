@@ -120,3 +120,17 @@ class DefenseDetailView(DetailView):
     def get_object(self):
         id_ = self.kwargs.get("id")
         return get_object_or_404(EspnDefenseStats, id=id_)
+
+def team_stats_index_view(request, team_abrv, *args, **kwargs):
+    team_abrv = team_abrv.upper()
+    passing_list = EspnPassingStats.objects.filter(team_abrv=team_abrv)
+    rushing_list = EspnRushingStats.objects.filter(team_abrv=team_abrv)
+    receiving_list = EspnReceivingStats.objects.filter(team_abrv=team_abrv)
+    print(team_abrv)
+    print(len(rushing_list))
+    my_context = {
+        "passing_list": passing_list,
+        "rushing_list": rushing_list,
+        "receiving_list": receiving_list
+    }
+    return render(request, "team_stats/index.html", my_context)

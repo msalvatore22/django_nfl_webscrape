@@ -23,7 +23,7 @@ class EspnWebscrapeConfig(AppConfig):
   ("los-angeles-rams","lar"),
   ("miami-dolphins","mia"),
   ("minnesota-vikings","min"),
-  ("new-england-patriots","pat"),
+  ("new-england-patriots","ne"),
   ("new-orleans-saints","no"),
   ("new-york-giants","nyg"),
   ("new-york-jets","nyj"),

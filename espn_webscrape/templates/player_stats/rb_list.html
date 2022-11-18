@@ -20,7 +20,7 @@
     {% for instance in object_list %}
      <tr>
       <th scope="row">{{ instance.pos }}</th>
-      <td><a href='{{ instance.get_absolute_url }}'>{{ instance.player_full_name }}</a></td>
+      <td><a class="link-info" href='{{ instance.get_absolute_url }}'>{{ instance.player_full_name }}</a></td>
       <td>{{ instance.team_abrv }}</td>
       <td>{{instance.att}}</td>
       <td>{{instance.yds}}</td>

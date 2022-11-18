@@ -9,7 +9,8 @@ from .views import (
     rb_list_view,
     qb_list_view,
     wr_list_view,
-    te_list_view
+    te_list_view,
+    team_stats_index_view
 )
 
 # from .views import passing_list_view
@@ -31,4 +32,8 @@ urlpatterns = [
     path('rushing/<int:id>/', RushingDetailView.as_view(), name='rushing-detail'),
     path('receiving/<int:id>/', ReceivingDetailView.as_view(), name='receiving-detail'),
     path('defense/<int:id>/', DefenseDetailView.as_view(), name='defense-detail'),
+    # team stats urls
+    # path('team_stats/', team_stats_index_view),
+    path('team_stats/<str:team_abrv>', team_stats_index_view),
+
 ]

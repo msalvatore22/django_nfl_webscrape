@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Team Stats Index</h1>
+<h3>Passing</h3>
+<ul class="list-group">
+  {% for instance in passing_list %}
+      <li class="list-group-item d-flex justify-content-between align-items-baseline">
+          <div class="d-flex justify-content-start align-items-baseline">
+              <p class="list-num-text">{{forloop.counter}}.</p>
+              <a class="link-dark" href='{{ instance.get_absolute_url }}'>{{ instance.player_full_name }}</a>
+              <p class="pos-text">{{ instance.team_abrv }}</p></div>                     
+          <span>{{instance.yds}}</span>
+      </li>
+  {% endfor %}
+</ul>
+<h3>Rushing</h3>
+<ul class="list-group">
+  {% for instance in rushing_list %}
+      <li class="list-group-item d-flex justify-content-between align-items-baseline">
+          <div class="d-flex justify-content-start align-items-baseline">
+              <p class="list-num-text">{{forloop.counter}}.</p>
+              <a class="link-dark" href='{{ instance.get_absolute_url }}'>{{ instance.player_full_name }}</a>
+              <p class="pos-text">{{ instance.team_abrv }}</p></div>                     
+          <span>{{instance.yds}}</span>
+      </li>
+  {% endfor %}
+</ul>
+<h3>Receiving</h3>
+<ul class="list-group">
+  {% for instance in receiving_list %}
+      <li class="list-group-item d-flex justify-content-between align-items-baseline">
+          <div class="d-flex justify-content-start align-items-baseline">
+              <p class="list-num-text">{{forloop.counter}}.</p>
+              <a class="link-dark" href='{{ instance.get_absolute_url }}'>{{ instance.player_full_name }}</a>
+              <p class="pos-text">{{ instance.team_abrv }}</p></div>                     
+          <span>{{instance.yds}}</span>
+      </li>
+  {% endfor %}
+</ul>
+{% endblock %}
