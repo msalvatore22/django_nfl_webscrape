@@ -8,6 +8,10 @@ from django.views.generic import (
     DeleteView
 )
 
+from django.http import JsonResponse
+from django.core.serializers import serialize
+import json
+
 from .models import EspnPassingStats, EspnRushingStats, EspnReceivingStats, EspnDefenseStats
 
 
@@ -121,16 +125,56 @@ class DefenseDetailView(DetailView):
         id_ = self.kwargs.get("id")
         return get_object_or_404(EspnDefenseStats, id=id_)
 
-def team_stats_index_view(request, team_abrv, *args, **kwargs):
-    team_abrv = team_abrv.upper()
+def team_stats_index_view(request, *args, **kwargs):
+    print(kwargs)
+    team_abrv = kwargs['team_abrv'].upper()
     passing_list = EspnPassingStats.objects.filter(team_abrv=team_abrv)
     rushing_list = EspnRushingStats.objects.filter(team_abrv=team_abrv)
     receiving_list = EspnReceivingStats.objects.filter(team_abrv=team_abrv)
-    print(team_abrv)
-    print(len(rushing_list))
+
+    rec_labels = EspnReceivingStats.objects.filter(team_abrv=team_abrv).order_by('-tgts').values('player_full_name')
+    rec_data = EspnReceivingStats.objects.filter(team_abrv=team_abrv).order_by('-tgts').values('tgts')
+
     my_context = {
         "passing_list": passing_list,
         "rushing_list": rushing_list,
-        "receiving_list": receiving_list
+        "receiving_list": receiving_list,
+        'rec_labels': rec_labels,
+        'rec_data': rec_data
     }
     return render(request, "team_stats/index.html", my_context)
+
+def team_stats_api_view(request, *args, **kwargs):
+
+    if 'team_abrv' in kwargs.keys():
+        team_abrv =  kwargs['team_abrv'].upper()
+    if 'category' in kwargs.keys():
+        category = kwargs['category'].lower()
+    if 'stat' in kwargs.keys():
+        stat = kwargs['stat'].lower()
+
+    labels = []
+    data = []
+
+
+    if category == 'passing':
+        table = EspnPassingStats
+    elif category == 'receiving':
+        table = EspnReceivingStats
+    elif category == 'rushing':
+        table = EspnRushingStats
+    elif category == 'defense':
+        table = EspnDefenseStats
+    else:
+        table = None
+    
+    queryset = table.objects.filter(team_abrv=team_abrv).order_by(f'-{stat}').values('player_full_name', f'{stat}')
+
+    for row in queryset:
+        labels.append(row['player_full_name'])
+        data.append(row[f'{stat}'])
+
+    return JsonResponse(data={
+        'labels': labels,
+        'data' : data
+    })

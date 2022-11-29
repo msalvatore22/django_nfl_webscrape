@@ -10,7 +10,8 @@ from .views import (
     qb_list_view,
     wr_list_view,
     te_list_view,
-    team_stats_index_view
+    team_stats_index_view,
+    team_stats_api_view
 )
 
 # from .views import passing_list_view
@@ -35,5 +36,6 @@ urlpatterns = [
     # team stats urls
     # path('team_stats/', team_stats_index_view),
     path('team_stats/<str:team_abrv>', team_stats_index_view),
+    path('team_stats/<str:team_abrv>/<str:category>/<str:stat>', team_stats_api_view, name='team_stats_api'),
 
 ]
