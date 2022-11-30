@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Team Stats Index</h1>
-<h3>Passing</h3>
+<div class="text-center">
+<h1 class="m-2">Passing</h1>
 <div>
-  <canvas class="chart" data-category="passing" data-stat="yds" width="800" height="400"></canvas>
+  <canvas class="chart m-2" data-category="passing" data-stat="yds"></canvas>
 </div>
 <ul class="list-group">
   {% for instance in passing_list %}
@@ -13,13 +13,19 @@
               <p class="list-num-text">{{forloop.counter}}.</p>
               <a class="link-dark" href='{{ instance.get_absolute_url }}'>{{ instance.player_full_name }}</a>
               <p class="pos-text">{{ instance.team_abrv }}</p></div>                     
-          <span>{{instance.yds}}</span>
+          <span>{{instance.yds}}<span class="pos-text">YDS</span></span>
       </li>
   {% endfor %}
 </ul>
-<h3>Rushing</h3>
+<h1 class="m-2">Rushing</h1>
 <div>
-  <canvas class="chart" data-category="rushing" data-stat="att" width="800" height="400"></canvas>
+  <canvas class="chart m-2" data-category="rushing" data-stat="att"></canvas>
+</div>
+<div>
+  <canvas class="chart m-2" data-category="rushing" data-stat="yds"></canvas>
+</div>
+<div>
+  <canvas class="chart m-2" data-category="rushing" data-stat="td"></canvas>
 </div>
 <ul class="list-group">
   {% for instance in rushing_list %}
@@ -28,19 +34,19 @@
               <p class="list-num-text">{{forloop.counter}}.</p>
               <a class="link-dark" href='{{ instance.get_absolute_url }}'>{{ instance.player_full_name }}</a>
               <p class="pos-text">{{ instance.team_abrv }}</p></div>                     
-          <span>{{instance.yds}}</span>
+          <span>{{instance.yds}}<span class="pos-text">YDS</span></span>
       </li>
   {% endfor %}
 </ul>
-<h3>Receiving</h3>
+<h1 class="m-2">Receiving</h1>
 <div>
-  <canvas class="chart" data-category="receiving" data-stat="tgts" width="800" height="400"></canvas>
+  <canvas class="chart m-2" data-category="receiving" data-stat="tgts"></canvas>
 </div>
 <div>
-  <canvas class="chart" data-category="receiving" data-stat="rec" width="800" height="400"></canvas>
+  <canvas class="chart m-2" data-category="receiving" data-stat="rec"></canvas>
 </div>
 <div>
-  <canvas class="chart" data-category="receiving" data-stat="td" width="800" height="400"></canvas>
+  <canvas class="chart m-2" data-category="receiving" data-stat="td"></canvas>
 </div>
 <ul class="list-group">
   {% for instance in receiving_list %}
@@ -49,21 +55,20 @@
               <p class="list-num-text">{{forloop.counter}}.</p>
               <a class="link-dark" href='{{ instance.get_absolute_url }}'>{{ instance.player_full_name }}</a>
               <p class="pos-text">{{ instance.team_abrv }}</p></div>                     
-          <span>{{instance.yds}}</span>
+          <span>{{instance.yds}}<span class="pos-text">YDS</span></span>
       </li>
   {% endfor %}
 </ul>
+</div>
 <script
   src="https://code.jquery.com/jquery-3.6.1.min.js"
   integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
   crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
-
-
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0/dist/chart.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 <script>
     $(function () {
       var $charts = $(".chart");
-      console.log($charts)
       $charts.each(function(index) {
         var category = $(this).attr('data-category')
         var stat = $(this).attr('data-stat')
@@ -78,10 +83,11 @@
                 labels: data.labels,
                 datasets: [{
                   label: stat.toLocaleUpperCase(),
-                  backgroundColor: 'blue',
+                  backgroundColor: data.color,
                   data: data.data
                 }]          
               },
+              plugins: [ChartDataLabels],
               options: {
                 responsive: true,
                 legend: {

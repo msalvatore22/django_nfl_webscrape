@@ -128,19 +128,14 @@ class DefenseDetailView(DetailView):
 def team_stats_index_view(request, *args, **kwargs):
     print(kwargs)
     team_abrv = kwargs['team_abrv'].upper()
-    passing_list = EspnPassingStats.objects.filter(team_abrv=team_abrv)
-    rushing_list = EspnRushingStats.objects.filter(team_abrv=team_abrv)
-    receiving_list = EspnReceivingStats.objects.filter(team_abrv=team_abrv)
-
-    rec_labels = EspnReceivingStats.objects.filter(team_abrv=team_abrv).order_by('-tgts').values('player_full_name')
-    rec_data = EspnReceivingStats.objects.filter(team_abrv=team_abrv).order_by('-tgts').values('tgts')
+    passing_list = EspnPassingStats.objects.filter(team_abrv=team_abrv).order_by('-yds')
+    rushing_list = EspnRushingStats.objects.filter(team_abrv=team_abrv).order_by('-yds')
+    receiving_list = EspnReceivingStats.objects.filter(team_abrv=team_abrv).order_by('-yds')
 
     my_context = {
         "passing_list": passing_list,
         "rushing_list": rushing_list,
         "receiving_list": receiving_list,
-        'rec_labels': rec_labels,
-        'rec_data': rec_data
     }
     return render(request, "team_stats/index.html", my_context)
 
@@ -159,12 +154,16 @@ def team_stats_api_view(request, *args, **kwargs):
 
     if category == 'passing':
         table = EspnPassingStats
+        color = 'rgb(158, 197, 254, 0.8)'
     elif category == 'receiving':
         table = EspnReceivingStats
+        color = 'rgb(110, 223, 246, 0.8)'
     elif category == 'rushing':
         table = EspnRushingStats
+        color = 'rgb(121, 223, 193, 0.8)'
     elif category == 'defense':
         table = EspnDefenseStats
+        color = 'rgb(254, 178, 114, 0.8)'
     else:
         table = None
     
@@ -176,5 +175,6 @@ def team_stats_api_view(request, *args, **kwargs):
 
     return JsonResponse(data={
         'labels': labels,
-        'data' : data
+        'data' : data,
+        'color': color
     })
