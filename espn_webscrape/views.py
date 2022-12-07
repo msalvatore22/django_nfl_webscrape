@@ -126,7 +126,6 @@ class DefenseDetailView(DetailView):
         return get_object_or_404(EspnDefenseStats, id=id_)
 
 def team_stats_index_view(request, *args, **kwargs):
-    print(kwargs)
     team_abrv = kwargs['team_abrv'].upper()
     passing_list = EspnPassingStats.objects.filter(team_abrv=team_abrv).order_by('-yds')
     rushing_list = EspnRushingStats.objects.filter(team_abrv=team_abrv).order_by('-yds')
@@ -167,7 +166,7 @@ def team_stats_api_view(request, *args, **kwargs):
     else:
         table = None
     
-    queryset = table.objects.filter(team_abrv=team_abrv).order_by(f'-{stat}').values('player_full_name', f'{stat}')
+    queryset = table.objects.filter(team_abrv=team_abrv).order_by(f'-{stat}').values('player_full_name', f'{stat}')[:8]
 
     for row in queryset:
         labels.append(row['player_full_name'])
