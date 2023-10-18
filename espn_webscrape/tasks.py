@@ -4,6 +4,8 @@ from celery import Celery
 from celery import app, shared_task
 
 # scraping
+import time
+import random
 import requests
 import pandas as pd
 from bs4 import BeautifulSoup
@@ -17,15 +19,21 @@ from .models import EspnDefenseStats, EspnPassingStats, EspnReceivingStats, Espn
 from celery.utils.log import get_task_logger
 logger = get_task_logger(__name__)
 
-# persisting data
-@shared_task
+# # persisting data
+# @shared_task
+
 def save_espn_stats(espn_stat_dict):
+    print(f"Saving webscrape task data initiated.")
     print(espn_stat_dict.keys())
 
     passing_list = espn_stat_dict['Passing']
+    print(passing_list[0].keys())
     receiving_list = espn_stat_dict["Receiving"]
+    print(receiving_list[0].keys())
     rushing_list = espn_stat_dict["Rushing"]
+    print(rushing_list[0].keys())
     defense_list = espn_stat_dict["Defense"]
+    print(defense_list[0].keys())
 
     for pass_stat in passing_list:
         try:
@@ -34,7 +42,7 @@ def save_espn_stats(espn_stat_dict):
                 "pos": pass_stat["POS"],
                 "team_full": pass_stat["TEAM_FULL"],
                 "team_abrv": pass_stat["TEAM"],
-                "season": "2022 Regular Season",
+                "season": "2023 Regular Season",
                 "gp": pass_stat["GP"],
                 "cmp": pass_stat["CMP"],
                 "att": pass_stat["ATT"],
@@ -66,7 +74,7 @@ def save_espn_stats(espn_stat_dict):
                 "pos": rec_stat["POS"],
                 "team_full": rec_stat["TEAM_FULL"],
                 "team_abrv": rec_stat["TEAM"],
-                "season": "2022 Regular Season",
+                "season": "2023 Regular Season",
                 "gp": rec_stat["GP"],
                 "rec": rec_stat["REC"],
                 "tgts": rec_stat["TGTS"],
@@ -87,7 +95,7 @@ def save_espn_stats(espn_stat_dict):
                 defaults=udpated_values
             )
         except Exception as e:
-                print('failed to persist passing stat')
+                print('failed to persist receiving stat')
                 print(e)
                 break
     
@@ -98,9 +106,9 @@ def save_espn_stats(espn_stat_dict):
                 "pos": rush_stat["POS"],
                 "team_full": rush_stat["TEAM_FULL"],
                 "team_abrv": rush_stat["TEAM"],
-                "season": "2022 Regular Season",
+                "season": "2023 Regular Season",
                 "gp": rush_stat["GP"],
-                "att": rush_stat["ATT"],
+                "car": rush_stat["CAR"],
                 "yds": rush_stat["YDS"],
                 "avg": rush_stat["AVG"],
                 "yds_g": rush_stat["YDS/G"],
@@ -117,7 +125,7 @@ def save_espn_stats(espn_stat_dict):
                 defaults=udpated_values
             )
         except Exception as e:
-                print('failed to persist passing stat')
+                print('failed to persist rushing stat')
                 print(e)
                 break
     
@@ -128,7 +136,7 @@ def save_espn_stats(espn_stat_dict):
                 "pos": def_stat["POS"],
                 "team_full": def_stat["TEAM_FULL"],
                 "team_abrv": def_stat["TEAM"],
-                "season": "2022 Regular Season",
+                "season": "2023 Regular Season",
                 "gp": def_stat["GP"],
                 "solo": def_stat["SOLO"],
                 "ast": def_stat["AST"],
@@ -162,17 +170,24 @@ def espn_team_player_stats():
     # print(nfl_teams)
     # store the dataframes in an object where the key is the title of the table
     espn_stat_dict = defaultdict(list)
+    user_agents_list = [
+        'Mozilla/5.0 (iPad; CPU OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.83 Safari/537.36',
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36'
+    ]
     try:
 
         for team in EspnWebscrapeConfig.nfl_teams:
+            print(team[0])
             URL = f'https://www.espn.com/nfl/team/stats/_/name/{team[1]}/{team[0]}'
-            page = requests.get(URL)
-            # print(page)
+            page = requests.get(URL, headers={'User-Agent': random.choice(user_agents_list)})
+            print(page.status_code)
             soup = BeautifulSoup(page.content, "html.parser")
             # print(soup)
             # find each table on the page
             responsive_tables = soup.find_all("div", class_="ResponsiveTable")
             # loop through each table to get the column headers
+            # print(responsive_tables)
 
             for idx, table_element in enumerate(responsive_tables):
                 # create a an object for a data frame for each table
@@ -231,7 +246,10 @@ def espn_team_player_stats():
                     df_to_dict = df.to_dict('records')
 
                     espn_stat_dict[table_title].extend(df_to_dict)
-        # print(espn_stat_dict["Passing"][0])
+            print("Waiting 10 seconds to request the next url.")
+            time.sleep(10)
+        
+        print(espn_stat_dict["Passing"][0])
         return save_espn_stats(espn_stat_dict)
     except Exception as e:
         print('The nfl web scrape job failed. See exception:')

@@ -5,3 +5,4 @@ settings.py
 __pycache__
 *.env
 /assets
+celerybeat-schedule

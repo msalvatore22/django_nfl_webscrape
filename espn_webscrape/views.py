@@ -30,25 +30,25 @@ def player_stats_index_view(request, *args, **kwargs):
     top_10_receiving_rec = EspnReceivingStats.objects.all().order_by('-rec')[:10]
     top_10_receiving_td = EspnReceivingStats.objects.all().order_by('-td')[:10]
     top_10_rushing_yds = EspnRushingStats.objects.all().order_by('-yds')[:10]
-    top_10_rushing_att = EspnRushingStats.objects.all().order_by('-att')[:10]
+    top_10_rushing_car = EspnRushingStats.objects.all().order_by('-car')[:10]
     top_10_rushing_td = EspnRushingStats.objects.all().order_by('-td')[:10]
     top_10_defense_tot = EspnDefenseStats.objects.all().order_by('-tot')[:10]
     top_10_defense_sack = EspnDefenseStats.objects.all().order_by('-sack')[:10]
     top_10_defense_int = EspnDefenseStats.objects.all().order_by('-int')[:10]
     
     my_context = {
-    "top_10_passing_yds": top_10_passing_yds,
-    "top_10_passing_cmp": top_10_passing_cmp,
-    "top_10_passing_td": top_10_passing_td,
-    "top_10_receiving_yds": top_10_receiving_yds,
-    "top_10_receiving_rec": top_10_receiving_rec,
-    "top_10_receiving_td":  top_10_receiving_td ,
-    "top_10_rushing_yds": top_10_rushing_yds,
-    "top_10_rushing_att": top_10_rushing_att,
-    "top_10_rushing_td": top_10_rushing_td,
-    "top_10_defense_tot": top_10_defense_tot,
-    "top_10_defense_sack":  top_10_defense_sack ,
-    "top_10_defense_int": top_10_defense_int,
+        "top_10_passing_yds": top_10_passing_yds,
+        "top_10_passing_cmp": top_10_passing_cmp,
+        "top_10_passing_td": top_10_passing_td,
+        "top_10_receiving_yds": top_10_receiving_yds,
+        "top_10_receiving_rec": top_10_receiving_rec,
+        "top_10_receiving_td":  top_10_receiving_td ,
+        "top_10_rushing_yds": top_10_rushing_yds,
+        "top_10_rushing_car": top_10_rushing_car,
+        "top_10_rushing_td": top_10_rushing_td,
+        "top_10_defense_tot": top_10_defense_tot,
+        "top_10_defense_sack":  top_10_defense_sack ,
+        "top_10_defense_int": top_10_defense_int,
     }
 
     return render(request, "player_stats/index.html", my_context)
@@ -66,7 +66,7 @@ def qb_list_view(request, *args, **kwargs):
 
 def rb_list_view(request, *args, **kwargs):
     query = request.GET.get('sort')
-    valid = ['att','yds','yds_g','td','avg']
+    valid = ['car','yds','yds_g','td','avg']
     if query is None or query not in valid:
         query = 'yds'
     sorted_list = EspnRushingStats.objects.filter(pos='RB').order_by(f"-{query}")

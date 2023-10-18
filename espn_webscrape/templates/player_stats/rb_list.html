@@ -9,7 +9,7 @@
       <th scope="col">POS</th>
       <th scope="col">Name</th>
       <th scope="col">Team</th>
-      <th role="button" onclick="location.href='?sort=att'" scope="col">ATT</th>
+      <th role="button" onclick="location.href='?sort=car'" scope="col">ATT</th>
       <th role="button" onclick="location.href='?sort=yds'" scope="col">YDS</th>
       <th role="button" onclick="location.href='?sort=avg'" scope="col">AVG</th>
       <th role="button" onclick="location.href='?sort=yds_g'" scope="col">YDS/G</th>
@@ -22,7 +22,7 @@
       <th scope="row">{{ instance.pos }}</th>
       <td><a class="link-info" href='{{ instance.get_absolute_url }}'>{{ instance.player_full_name }}</a></td>
       <td>{{ instance.team_abrv }}</td>
-      <td>{{instance.att}}</td>
+      <td>{{instance.carr}}</td>
       <td>{{instance.yds}}</td>
       <td>{{instance.avg}}</td>
       <td>{{instance.yds_g}}</td>

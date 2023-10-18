@@ -93,15 +93,15 @@
 <div class="row align-items-center mt-4">
       <h1>Rushing Leaders</h1>
       <div class="col">
-          <h3>Rushing Attempts</h3>
+          <h3>Rushing Carries</h3>
             <ul class="list-group">
-              {% for instance in top_10_rushing_att %}
+              {% for instance in top_10_rushing_car %}
                   <li class="list-group-item d-flex justify-content-between align-items-baseline">
                       <div class="d-flex justify-content-start align-items-baseline">
                           <p class="list-num-text">{{forloop.counter}}.</p>
                           <a class="link-dark" href='{{ instance.get_absolute_url }}'>{{ instance.player_full_name }}</a>
                           <p class="pos-text">{{ instance.team_abrv }}</p></div>                     
-                      <span>{{instance.att}}</span>
+                      <span>{{instance.car}}</span>
                   </li>
               {% endfor %}
               </ul>

@@ -5,6 +5,9 @@ from django.urls import reverse
 class EspnPassingStats(models.Model):
   class Meta:
     db_table = 'espn_passing_stats'
+    constraints = [
+      models.UniqueConstraint(fields=['player_full_name', 'pos'], name='espn_passing_stats unique player constraint')
+    ]
   player_full_name = models.CharField(max_length=50)
   pos = models.CharField(max_length=4, null=True)
   team_full = models.CharField(max_length=30)
@@ -29,6 +32,9 @@ class EspnPassingStats(models.Model):
 class EspnReceivingStats(models.Model):
   class Meta:
     db_table = 'espn_receiving_stats'
+    constraints = [
+      models.UniqueConstraint(fields=['player_full_name', 'pos'], name='espn_receiving_stats unique player constraint')
+    ]
   player_full_name = models.CharField(max_length=50)
   pos = models.CharField(max_length=4, null=True)
   team_full = models.CharField(max_length=30)
@@ -53,13 +59,16 @@ class EspnReceivingStats(models.Model):
 class EspnRushingStats(models.Model):
   class Meta:
     db_table = 'espn_rushing_stats'
+    constraints = [
+      models.UniqueConstraint(fields=['player_full_name', 'pos'], name='espn_rushing_stats unique player constraint')
+    ]
   player_full_name = models.CharField(max_length=50)
   pos = models.CharField(max_length=4, null=True)
   team_full = models.CharField(max_length=30)
   team_abrv = models.CharField(max_length=3)
   season = models.CharField(max_length=25)
   gp = models.SmallIntegerField()
-  att = models.SmallIntegerField()
+  car = models.SmallIntegerField()
   yds = models.SmallIntegerField()
   avg = models.DecimalField(max_digits=5, decimal_places=2)
   lng = models.SmallIntegerField()
@@ -75,6 +84,9 @@ class EspnRushingStats(models.Model):
 class EspnDefenseStats(models.Model):
   class Meta:
     db_table = 'espn_defense_stats'
+    constraints = [
+      models.UniqueConstraint(fields=['player_full_name', 'pos'], name='espn_defense_stats unique player constraint')
+    ]
   player_full_name = models.CharField(max_length=50)
   pos = models.CharField(max_length=4, null=True)
   team_full = models.CharField(max_length=30)
