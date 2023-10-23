@@ -16,18 +16,16 @@ app.autodiscover_tasks()
 
 app.conf.beat_schedule = {
     # executes every 1 minute
-    'scraping-task-one-min': {
-        'task': 'espn_webscrape.tasks.espn_team_player_stats',
-        'schedule': crontab(),
-    },
-    # # executes every 15 minutes
-    # 'scraping-task-fifteen-min': {
-    #     'task': 'tasks.hackernews_rss',
-    #     'schedule': crontab(minute='*/15')
+    # 'scraping-task-one-min': {
+    #     'task': 'espn_webscrape.tasks.espn_team_player_stats',
+    #     'schedule': crontab(),
     # },
-    # # executes daily at midnight
-    # 'scraping-task-midnight-daily': {
-    #     'task': 'tasks.hackernews_rss',
-    #     'schedule': crontab(minute=0, hour=0)
-    # }
+    # 'scraping-task-one-hour': {
+    #     'task': 'espn_webscrape.tasks.espn_team_player_stats',
+    #     'schedule': crontab('*/1'),
+    # },
+    'scraping-task-thirty-min': {
+        'task': 'espn_webscrape.tasks.espn_team_player_stats',
+        'schedule': crontab(minute='*/30'),
+    },
 }
