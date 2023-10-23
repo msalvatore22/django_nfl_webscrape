@@ -1,18 +1,18 @@
 <div class="d-flex justify-content-center mt-4">
   <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-    <input onclick="location.href='/espn_webscrape/player_stats/'" type="radio" class="btn-check" name="btnradio" id="LEADERS" autocomplete="off" {% if request.resolver_match.url_name == None %}checked{% endif %}>
+    <input onclick="location.href='/espn/player_stats/'" type="radio" class="btn-check" name="btnradio" id="LEADERS" autocomplete="off" {% if request.resolver_match.url_name == None %}checked{% endif %}>
     <label class="btn btn-outline-dark" for="LEADERS">LEADERS</label>
 
-    <input onclick="location.href='/espn_webscrape/player_stats/qb'" type="radio" class="btn-check" name="btnradio" id="QB" autocomplete="off" {% if request.resolver_match.url_name == 'qb-list' %}checked{% endif %}>
+    <input onclick="location.href='/espn/player_stats/qb'" type="radio" class="btn-check" name="btnradio" id="QB" autocomplete="off" {% if request.resolver_match.url_name == 'qb-list' %}checked{% endif %}>
     <label class="btn btn-outline-dark" for="QB">QB</label>
   
-    <input onclick="location.href='/espn_webscrape/player_stats/rb'" type="radio" class="btn-check" name="btnradio" id="RB" autocomplete="off" {% if request.resolver_match.url_name == 'rb-list' %}checked{% endif %}>
+    <input onclick="location.href='/espn/player_stats/rb'" type="radio" class="btn-check" name="btnradio" id="RB" autocomplete="off" {% if request.resolver_match.url_name == 'rb-list' %}checked{% endif %}>
     <label class="btn btn-outline-dark" for="RB">RB</label>
   
-    <input onclick="location.href='/espn_webscrape/player_stats/wr'" type="radio" class="btn-check" name="btnradio" id="WR" autocomplete="off" {% if request.resolver_match.url_name == 'wr-list' %}checked{% endif %}>
+    <input onclick="location.href='/espn/player_stats/wr'" type="radio" class="btn-check" name="btnradio" id="WR" autocomplete="off" {% if request.resolver_match.url_name == 'wr-list' %}checked{% endif %}>
     <label class="btn btn-outline-dark" for="WR">WR</label>
 
-    <input onclick="location.href='/espn_webscrape/player_stats/te'" type="radio" class="btn-check" name="btnradio" id="TE" autocomplete="off" {% if request.resolver_match.url_name == 'te-list' %}checked{% endif %}>
+    <input onclick="location.href='/espn/player_stats/te'" type="radio" class="btn-check" name="btnradio" id="TE" autocomplete="off" {% if request.resolver_match.url_name == 'te-list' %}checked{% endif %}>
     <label class="btn btn-outline-dark" for="TE">TE</label>
   </div>
 </div>

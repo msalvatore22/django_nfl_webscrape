@@ -18,7 +18,7 @@ from django.urls import path, include
 from .views import home_view
 
 urlpatterns = [
-    path('espn_webscrape/', include('espn_webscrape.urls')),
+    path('espn/', include('espn_webscrape.urls')),
     path('', home_view, name='home'), # homepage
     path('admin/', admin.site.urls),
 ]
