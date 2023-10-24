@@ -36,7 +36,7 @@ if ENVIRONMENT == "dev":
     celery_result_backend = env("CELERY_RESULT_BACKEND")
 elif ENVIRONMENT == "prod":
     secret_key = os.environ.get("SECRET_KEY")
-    engine = os.environ.get("DB_ENGINE")
+    db_engine = os.environ.get("DB_ENGINE")
     db_name = os.environ.get("DB_NAME")
     db_user = os.environ.get("DB_USER")
     db_password = os.environ.get("DB_PASSWORD")
