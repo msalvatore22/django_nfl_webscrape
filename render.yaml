@@ -1,15 +1,15 @@
 services:
   - type: worker
     name: celery
-    region: ohio
+    region: oregon
     plan: starter
     env: python
-    buildCommand: "pip install -r ./requirements/prodution.txt"
+    buildCommand: "pip install -r ./requirements/production.txt"
     startCommand: "./compose/production/django/celery/worker/start.sh"
     autoDeploy: false
   - type: cron
     name: celery-beat
-    region: ohio
+    region: oregon
     plan: starter
     env: python
     schedule: "*/30 * * * *"
