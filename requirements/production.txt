@@ -1,6 +1,4 @@
 -r base.txt
 
-gunicorn==20.1.0
-importlib-metadata==4.11.3
-kombu==5.2.4
-Deprecated==1.2.13
+gunicorn
+

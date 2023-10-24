@@ -23,6 +23,8 @@ APPS_DIR = BASE_DIR / "django_nfl_webscrape"
 
 ENVIRONMENT = os.environ.get("ENV")
 if ENVIRONMENT == "dev":
+    # SECURITY WARNING: don't run with debug turned on in production!
+    DEBUG = True
     environ.Env.read_env(os.path.join(BASE_DIR, '.envs/.env.dev'))
     env = environ.Env()
     secret_key = env("SECRET_KEY")
@@ -34,7 +36,10 @@ if ENVIRONMENT == "dev":
     db_port = env("DB_PORT")
     celery_broker_url = env("CELERY_BROKER_URL")
     celery_result_backend = env("CELERY_RESULT_BACKEND")
+
 elif ENVIRONMENT == "prod":
+    # SECURITY WARNING: don't run with debug turned on in production!
+    DEBUG = False
     secret_key = os.environ.get("SECRET_KEY")
     db_engine = os.environ.get("DB_ENGINE")
     db_name = os.environ.get("DB_NAME")
@@ -54,8 +59,7 @@ else:
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = secret_key
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+
 
 ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1"]
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
@@ -177,6 +181,7 @@ else:
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+DJANGO_CELERY_BEAT_TZ_AWARE = False
 CELERY_BROKER_URL = celery_broker_url
 CELERY_RESULT_BACKEND = celery_result_backend
 CELERY_ACCEPT_CONTENT = ['application/json']

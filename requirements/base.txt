@@ -1,7 +1,7 @@
 django
 django-environ
 psycopg2-binary
-celery==5.2.6
+celery
 whitenoise
 requests
 beautifulsoup4
