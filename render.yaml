@@ -4,7 +4,7 @@ services:
     region: ohio
     plan: starter
     env: python
-    buildCommand: "pip install -r ./requirements/base.txt"
+    buildCommand: "pip install -r ./requirements/prodution.txt"
     startCommand: "./compose/production/django/celery/worker/start.sh"
     autoDeploy: false
   - type: cron
@@ -13,6 +13,6 @@ services:
     plan: starter
     env: python
     schedule: "*/30 * * * *"
-    buildCommand: "pip install -r ./requirements/base.txt"
+    buildCommand: "pip install -r ./requirements/production.txt"
     startCommand: "./compose/production/django/celery/beat/start.sh"
     autoDeploy: false
