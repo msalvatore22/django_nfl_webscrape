@@ -2,7 +2,7 @@ FROM python:3.11-slim-buster
 
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
-ENV ENV=dev
+ENV ENV=prod
 
 RUN apt-get update \
   # dependencies for building Python packages
@@ -17,22 +17,22 @@ RUN apt-get update \
 
 
 # Requirements are installed here to ensure they will be cached.
-COPY ./requirements/local.txt /requirements.txt
+COPY ./requirements/prodcution.txt /requirements.txt
 RUN pip install -r /requirements.txt
 
-COPY ./compose/local/django/entrypoint.sh /entrypoint.sh
+COPY ./compose/production/django/entrypoint.sh /entrypoint.sh
 RUN sed -i 's/\r$//g' /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-COPY ./compose/local/django/start.sh /start.sh
+COPY ./compose/production/django/start.sh /start.sh
 RUN sed -i 's/\r$//g' /start.sh
 RUN chmod +x /start.sh
 
-COPY ./compose/local/django/celery/worker/start.sh /start-celeryworker.sh
+COPY ./compose/production/django/celery/worker/start.sh /start-celeryworker.sh
 RUN sed -i 's/\r$//g' /start-celeryworker.sh
 RUN chmod +x /start-celeryworker.sh
 
-COPY ./compose/local/django/celery/beat/start.sh /start-celerybeat.sh
+COPY ./compose/production/django/celery/beat/start.sh /start-celerybeat.sh
 RUN sed -i 's/\r$//g' /start-celerybeat.sh
 RUN chmod +x /start-celerybeat.sh
 

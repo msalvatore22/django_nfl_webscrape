@@ -1,0 +1,9 @@
+django
+django-environ
+psycopg2-binary
+celery
+requests
+beautifulsoup4
+pandas
+numpy
+redis

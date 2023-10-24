@@ -6,7 +6,7 @@ class EspnPassingStats(models.Model):
   class Meta:
     db_table = 'espn_passing_stats'
     constraints = [
-      models.UniqueConstraint(fields=['player_full_name', 'pos'], name='espn_passing_stats unique player constraint')
+      models.UniqueConstraint(fields=['player_full_name', 'pos', 'team_abrv'], name='espn_passing_stats unique player constraint')
     ]
   player_full_name = models.CharField(max_length=50)
   pos = models.CharField(max_length=4, null=True)
@@ -33,7 +33,7 @@ class EspnReceivingStats(models.Model):
   class Meta:
     db_table = 'espn_receiving_stats'
     constraints = [
-      models.UniqueConstraint(fields=['player_full_name', 'pos'], name='espn_receiving_stats unique player constraint')
+      models.UniqueConstraint(fields=['player_full_name', 'pos', 'team_abrv'], name='espn_receiving_stats unique player constraint')
     ]
   player_full_name = models.CharField(max_length=50)
   pos = models.CharField(max_length=4, null=True)
@@ -60,7 +60,7 @@ class EspnRushingStats(models.Model):
   class Meta:
     db_table = 'espn_rushing_stats'
     constraints = [
-      models.UniqueConstraint(fields=['player_full_name', 'pos'], name='espn_rushing_stats unique player constraint')
+      models.UniqueConstraint(fields=['player_full_name', 'pos', 'team_abrv'], name='espn_rushing_stats unique player constraint')
     ]
   player_full_name = models.CharField(max_length=50)
   pos = models.CharField(max_length=4, null=True)
@@ -85,7 +85,7 @@ class EspnDefenseStats(models.Model):
   class Meta:
     db_table = 'espn_defense_stats'
     constraints = [
-      models.UniqueConstraint(fields=['player_full_name', 'pos'], name='espn_defense_stats unique player constraint')
+      models.UniqueConstraint(fields=['player_full_name', 'pos', 'team_abrv'], name='espn_defense_stats unique player constraint')
     ]
   player_full_name = models.CharField(max_length=50)
   pos = models.CharField(max_length=4, null=True)
