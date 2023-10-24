@@ -1,14 +1,4 @@
 services:
-  - type: web
-    name: pro-football-metrics
-    region: ohio
-    plan: free
-    runtime: python
-    buildCommand: "./compose/production/django/build.sh"
-    startCommand: "gunicorn django_nfl_webscrape.wsgi:application"
-    envVars:
-      - key: WEB_CONCURRENCY
-        value: 1
   - type: worker
     name: celery
     region: ohio
