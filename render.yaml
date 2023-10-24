@@ -20,7 +20,7 @@ services:
   - type: cron
     name: celery-beat
     region: ohio
-    plan: free
+    plan: starter
     env: python
     schedule: "*/30 * * * *"
     buildCommand: "pip install -r ./requirements/base.txt"
