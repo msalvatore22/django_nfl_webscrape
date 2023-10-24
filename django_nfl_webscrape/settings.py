@@ -39,7 +39,7 @@ if ENVIRONMENT == "dev":
 
 elif ENVIRONMENT == "prod":
     # SECURITY WARNING: don't run with debug turned on in production!
-    DEBUG = False
+    DEBUG = True
     secret_key = os.environ.get("SECRET_KEY")
     db_engine = os.environ.get("DB_ENGINE")
     db_name = os.environ.get("DB_NAME")

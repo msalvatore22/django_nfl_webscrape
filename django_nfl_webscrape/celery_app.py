@@ -24,8 +24,12 @@ app.conf.beat_schedule = {
     #     'task': 'espn_webscrape.tasks.espn_team_player_stats',
     #     'schedule': crontab('*/1'),
     # },
-    'scraping-task-thirty-min': {
+    # 'scraping-task-thirty-min': {
+    #     'task': 'espn_webscrape.tasks.espn_team_player_stats',
+    #     'schedule': crontab(minute='*/30'),
+    # },
+    'scraping-task-12-hour': {
         'task': 'espn_webscrape.tasks.espn_team_player_stats',
-        'schedule': crontab(minute='*/30'),
+        'schedule': crontab(hour='*/12'),
     },
 }
