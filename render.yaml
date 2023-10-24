@@ -18,6 +18,7 @@ services:
     name: celery-beat
     region: ohio
     env: python
+    schedule: "*/30 * * * *"
     buildCommand: "pip install -r ./requirements/base.txt"
     startCommand: "./compose/production/django/celery/beat/start.sh"
     autoDeploy: false
