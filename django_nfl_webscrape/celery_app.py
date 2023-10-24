@@ -1,12 +1,12 @@
 import os
-from celery import Celery
+import celery
 
 from celery.schedules import crontab # scheduler
 
 # default django settings
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_nfl_webscrape.settings')
 
-app = Celery('django_nfl_webscape')
+app = celery.Celery('django_nfl_webscape')
 
 app.conf.timezone = 'UTC'
 
