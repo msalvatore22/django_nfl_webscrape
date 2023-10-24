@@ -19,7 +19,7 @@ import sys
 BASE_DIR = Path(__file__).resolve().parent.parent
 APPS_DIR = BASE_DIR / "django_nfl_webscrape"
 
-
+ALLOWED_HOSTS = []
 
 ENVIRONMENT = os.environ.get("ENV")
 if ENVIRONMENT == "dev":
@@ -36,10 +36,11 @@ if ENVIRONMENT == "dev":
     db_port = env("DB_PORT")
     celery_broker_url = env("CELERY_BROKER_URL")
     celery_result_backend = env("CELERY_RESULT_BACKEND")
+    ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1"]
 
 elif ENVIRONMENT == "prod":
     # SECURITY WARNING: don't run with debug turned on in production!
-    DEBUG = True
+    DEBUG = False
     secret_key = os.environ.get("SECRET_KEY")
     db_engine = os.environ.get("DB_ENGINE")
     db_name = os.environ.get("DB_NAME")
@@ -49,6 +50,9 @@ elif ENVIRONMENT == "prod":
     db_port = os.environ.get("DB_PORT")
     celery_broker_url = os.environ.get("CELERY_BROKER_URL")
     celery_result_backend = os.environ.get("CELERY_RESULT_BACKEND")
+    RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+    if RENDER_EXTERNAL_HOSTNAME:
+        ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 else:
     print("-> Missing ENV variable (dev | prod)")
     sys.exit(1)
@@ -61,7 +65,7 @@ SECRET_KEY = secret_key
 
 
 
-ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1"]
+
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
@@ -181,7 +185,6 @@ else:
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-DJANGO_CELERY_BEAT_TZ_AWARE = False
 CELERY_BROKER_URL = celery_broker_url
 CELERY_RESULT_BACKEND = celery_result_backend
 CELERY_ACCEPT_CONTENT = ['application/json']
