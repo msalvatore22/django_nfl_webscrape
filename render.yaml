@@ -5,7 +5,7 @@ services:
     plan: starter
     env: python
     buildCommand: "pip install -r ./requirements/production.txt"
-    startCommand: "./compose/production/django/celery/worker/start.sh"
+    startCommand: "celery -A django_nfl_webscrape worker -l INFO --concurrency 1 -E"
     autoDeploy: false
   - type: worker
     name: celery-beat
@@ -13,6 +13,6 @@ services:
     plan: starter
     env: python
     buildCommand: "pip install -r ./requirements/production.txt"
-    startCommand: "./compose/production/django/celery/beat/start.sh"
+    startCommand: "celery -A django_nfl_webscrape beat -l INFO"
     autoDeploy: false
 
