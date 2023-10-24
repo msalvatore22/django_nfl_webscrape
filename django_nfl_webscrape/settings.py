@@ -19,13 +19,31 @@ import sys
 BASE_DIR = Path(__file__).resolve().parent.parent
 APPS_DIR = BASE_DIR / "django_nfl_webscrape"
 
-env = environ.Env()
+
 
 ENVIRONMENT = os.environ.get("ENV")
 if ENVIRONMENT == "dev":
     environ.Env.read_env(os.path.join(BASE_DIR, '.envs/.env.dev'))
+    env = environ.Env()
+    secret_key = env("SECRET_KEY")
+    db_engine = env("DB_ENGINE")
+    db_name = env("DB_NAME")
+    db_user = env("DB_USER")
+    db_password = env("DB_PASSWORD")
+    db_host = env("DB_HOST")
+    db_port = env("DB_PORT")
+    celery_broker_url = env("CELERY_BROKER_URL")
+    celery_result_backend = env("CELERY_RESULT_BACKEND")
 elif ENVIRONMENT == "prod":
-    environ.Env.read_env(os.path.join(BASE_DIR, '.envs/.env'))
+    secret_key = os.environ.get("SECRET_KEY")
+    engine = os.environ.get("DB_ENGINE")
+    db_name = os.environ.get("DB_NAME")
+    db_user = os.environ.get("DB_USER")
+    db_password = os.environ.get("DB_PASSWORD")
+    db_host = os.environ.get("DB_HOST")
+    db_port = os.environ.get("DB_PORT")
+    celery_broker_url = os.environ.get("CELERY_BROKER_URL")
+    celery_result_backend = os.environ.get("CELERY_RESULT_BACKEND")
 else:
     print("-> Missing ENV variable (dev | prod)")
     sys.exit(1)
@@ -34,7 +52,7 @@ else:
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env("SECRET_KEY")
+SECRET_KEY = secret_key
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -94,12 +112,12 @@ WSGI_APPLICATION = 'django_nfl_webscrape.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': env("DB_ENGINE"),
-        'NAME': env("DB_NAME"),
-        'USER': env("DB_USER"),
-        'PASSWORD': env("DB_PASSWORD"),
-        'HOST': env("DB_HOST"),
-        'PORT': env("DB_PORT")
+        'ENGINE': db_engine,
+        'NAME': db_name,
+        'USER': db_user,
+        'PASSWORD': db_password,
+        'HOST': db_host,
+        'PORT': db_port
     }
 }
 
@@ -159,8 +177,8 @@ else:
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CELERY_BROKER_URL = env("CELERY_BROKER_URL")
-CELERY_RESULT_BACKEND = env("CELERY_RESULT_BACKEND")
+CELERY_BROKER_URL = celery_broker_url
+CELERY_RESULT_BACKEND = celery_result_backend
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
