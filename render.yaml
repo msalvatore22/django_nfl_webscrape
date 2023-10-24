@@ -12,7 +12,7 @@ services:
   - type: worker
     name: celery
     region: ohio
-    plan: free
+    plan: starter
     env: python
     buildCommand: "pip install -r ./requirements/base.txt"
     startCommand: "./compose/production/django/celery/worker/start.sh"
@@ -26,4 +26,3 @@ services:
     buildCommand: "pip install -r ./requirements/base.txt"
     startCommand: "./compose/production/django/celery/beat/start.sh"
     autoDeploy: false
-

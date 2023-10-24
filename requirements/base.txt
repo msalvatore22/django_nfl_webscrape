@@ -1,7 +1,7 @@
 django
 django-environ
 psycopg2-binary
-celery
+celery==5.2.6
 requests
 beautifulsoup4
 pandas
