@@ -28,11 +28,11 @@ COPY ./compose/production/django/start.sh /start.sh
 RUN sed -i 's/\r$//g' /start.sh
 RUN chmod +x /start.sh
 
-COPY ./compose/production/django/celery/worker/start.sh /start-celeryworker.sh
+COPY ./compose/production/django/celery-scripts/worker/start.sh /start-celeryworker.sh
 RUN sed -i 's/\r$//g' /start-celeryworker.sh
 RUN chmod +x /start-celeryworker.sh
 
-COPY ./compose/production/django/celery/beat/start.sh /start-celerybeat.sh
+COPY ./compose/production/django/celery-scripts/beat/start.sh /start-celerybeat.sh
 RUN sed -i 's/\r$//g' /start-celerybeat.sh
 RUN chmod +x /start-celerybeat.sh
 
