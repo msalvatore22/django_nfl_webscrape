@@ -26,3 +26,4 @@ services:
     buildCommand: "pip install -r ./requirements/base.txt"
     startCommand: "./compose/production/django/celery/beat/start.sh"
     autoDeploy: false
+
