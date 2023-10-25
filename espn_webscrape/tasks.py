@@ -7,6 +7,7 @@ from celery import app, shared_task
 import time
 import random
 import requests
+import json
 import pandas as pd
 from bs4 import BeautifulSoup
 from collections import defaultdict
@@ -15,25 +16,29 @@ from .apps import EspnWebscrapeConfig
 # model
 from .models import EspnDefenseStats, EspnPassingStats, EspnReceivingStats, EspnRushingStats
 
-# logging
+# celery logging
 from celery.utils.log import get_task_logger
-logger = get_task_logger(__name__)
+celery_logger = get_task_logger(__name__)
+
+# django logging
+import logging
+logger = logging.getLogger(__name__)
 
 # # persisting data
 # @shared_task
 
 def save_espn_stats(espn_stat_dict):
-    print(f"Saving webscrape task data initiated.")
-    print(espn_stat_dict.keys())
+    logger.info(f"Save ESPN Stats initiated.")
+    logger.info(espn_stat_dict.keys())
 
     passing_list = espn_stat_dict['Passing']
-    print(passing_list[0].keys())
+    logger.info(passing_list[0].keys())
     receiving_list = espn_stat_dict["Receiving"]
-    print(receiving_list[0].keys())
+    logger.info(receiving_list[0].keys())
     rushing_list = espn_stat_dict["Rushing"]
-    print(rushing_list[0].keys())
+    logger.info(rushing_list[0].keys())
     defense_list = espn_stat_dict["Defense"]
-    print(defense_list[0].keys())
+    logger.info(defense_list[0].keys())
 
     for pass_stat in passing_list:
         try:
@@ -60,12 +65,13 @@ def save_espn_stats(espn_stat_dict):
             obj, created = EspnPassingStats.objects.update_or_create(
                 player_full_name = pass_stat["Player Name"],
                 team_abrv = pass_stat["TEAM"],
+                pos = pass_stat["POS"],
                 defaults=udpated_values
             )
         except Exception as e:
-                print('failed to persist passing stat')
-                print(e)
-                break
+                logger.error(f'Failed to persist passing stat:\n {json.dumps(pass_stat, indent=2)}')
+                logger.error(e)
+                continue
     
     for rec_stat in receiving_list:
         try:
@@ -92,12 +98,13 @@ def save_espn_stats(espn_stat_dict):
             obj, created = EspnReceivingStats.objects.update_or_create(
                 player_full_name = rec_stat["Player Name"],
                 team_abrv = rec_stat["TEAM"],
+                pos = rec_stat["POS"],
                 defaults=udpated_values
             )
         except Exception as e:
-                print('failed to persist receiving stat')
-                print(e)
-                break
+                logger.error(f'Failed to persist receiving stat:\n {json.dumps(rec_stat, indent=2)}')
+                logger.error(e)
+                continue
     
     for rush_stat in rushing_list:
         try:
@@ -122,12 +129,13 @@ def save_espn_stats(espn_stat_dict):
             obj, created = EspnRushingStats.objects.update_or_create(
                 player_full_name = rush_stat["Player Name"],
                 team_abrv = rush_stat["TEAM"],
+                pos = rush_stat["POS"],
                 defaults=udpated_values
             )
         except Exception as e:
-                print('failed to persist rushing stat')
-                print(e)
-                break
+                logger.error(f'Failed to persist rushing stat:\n {json.dumps(rush_stat, indent=2)}')
+                logger.error(e)
+                continue
     
     for def_stat in defense_list:
         try:
@@ -156,19 +164,20 @@ def save_espn_stats(espn_stat_dict):
             obj, created = EspnDefenseStats.objects.update_or_create(
                 player_full_name = def_stat["Player Name"],
                 team_abrv = def_stat["TEAM"],
+                pos =  def_stat["POS"],
                 defaults=udpated_values
             )
         except Exception as e:
-                print('failed to persist defense stat')
-                print(e)
-                break
+                logger.error(f'Failed to persist defense stat:\n {json.dumps(def_stat, indent=2)}')
+                logger.error(e)
+                continue
 
 # webscraping
 @shared_task
 def espn_team_player_stats():
-    print(f"ESPN NFL Web Scrape Initiated")
-    # print(nfl_teams)
-    # store the dataframes in an object where the key is the title of the table
+    celery_logger.info(f"ESPN NFL Web Scrape Initiated")
+
+    # store the dataframes in an object where the key is the title of the table (i.e 'Passing')
     espn_stat_dict = defaultdict(list)
     user_agents_list = [
         'Mozilla/5.0 (iPad; CPU OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148',
@@ -178,28 +187,27 @@ def espn_team_player_stats():
     try:
 
         for team in EspnWebscrapeConfig.nfl_teams:
-            print(team[0])
             URL = f'https://www.espn.com/nfl/team/stats/_/name/{team[1]}/{team[0]}'
             page = requests.get(URL, headers={'User-Agent': random.choice(user_agents_list)})
-            print(page.status_code)
+            celery_logger.info(f'Requested: {team[0]}, status code: {page.status_code}')
             soup = BeautifulSoup(page.content, "html.parser")
-            # print(soup)
+
             # find each table on the page
             responsive_tables = soup.find_all("div", class_="ResponsiveTable")
+            
             # loop through each table to get the column headers
-            # print(responsive_tables)
-
             for idx, table_element in enumerate(responsive_tables):
-                # create a an object for a data frame for each table
+                # create a dict for a data frame for each table
                 d = {}
                 player_list = []
                 columns = []
                 table_title = table_element.find("div", class_="Table__Title").text
-                # print(table_title)
                 tables = table_element.find_all("table", class_="Table")
+
                 # goal is to make a dict with player name as key and row values in a list
                   # { 'Kyler Murray QB': [9,3,40...], "Backup QB": [4,5,6...]}
                 # then with the column headers we can do pd.DataFrame.from_dict(d, orient='index',columns=column_headers)
+
                 if table_title in ["Passing", "Rushing", "Receiving", "Defense"]:
                     player_table = tables[0].find_all("td", class_="Table__TD")
                     for player in player_table:
@@ -213,19 +221,21 @@ def espn_team_player_stats():
                     stat_table = tables[1]
                     stat_headers = stat_table.find_all("th", class_="stats-cell")
 
-                    # add POS as first column in table
+                    # add POS and Player Name as columns
                     columns.append('Player Name')
                     columns.append('POS')
-
+                    
+                    # add the rest of the table columns
                     for stat in stat_headers:
                         columns.append(stat.text) 
+
                     # grab the rows of the table and create the player stat dictionary used for the dataframe
                     stat_table_body = stat_table.find("tbody")
                     stat_rows = stat_table_body.find_all("tr", class_="Table__TR", limit=len(player_list))
                     for i,row in enumerate(stat_rows):
                         row_values = row.find_all('td', class_="Table__TD")
                         stat_list = []
-                        # make first stat the player position
+                        # make first stat the player and position
                         stat_list.append(player_list[i][0])
                         stat_list.append(player_list[i][1]) 
                         # get the stat values
@@ -246,11 +256,9 @@ def espn_team_player_stats():
                     df_to_dict = df.to_dict('records')
 
                     espn_stat_dict[table_title].extend(df_to_dict)
-            print("Waiting 10 seconds to request the next url.")
+            celery_logger.info("Waiting 10 seconds to request the next url.")
             time.sleep(10)
-        
-        print(espn_stat_dict["Passing"][0])
         return save_espn_stats(espn_stat_dict)
     except Exception as e:
-        print('The nfl web scrape job failed. See exception:')
-        print(e)
+        celery_logger.error('The nfl web scrape job failed. See exception:')
+        celery_logger.error(e)

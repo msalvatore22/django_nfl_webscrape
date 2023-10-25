@@ -84,7 +84,7 @@ def wr_list_view(request, *args, **kwargs):
     my_context ={
         "object_list": sorted_list
     }
-    return render(request, 'player_stats/rec_list.html', my_context)
+    return render(request, 'player_stats/wr_list.html', my_context)
 
 def te_list_view(request, *args, **kwargs):
     query = request.GET.get('sort')
@@ -95,7 +95,7 @@ def te_list_view(request, *args, **kwargs):
     my_context ={
         "object_list": sorted_list
     }
-    return render(request, 'player_stats/rec_list.html', my_context)
+    return render(request, 'player_stats/te_list.html', my_context)
 
 class PassingDetailView(DetailView):
     template_name = 'passing/passing_detail.html'

@@ -2,63 +2,30 @@
 
 {% block content %}
 <div class="text-center">
-<h1 class="mt-4">Passing</h1>
-<div>
-  <canvas class="chart m-2" data-category="passing" data-stat="yds" height="100" height="100"></canvas>
-</div>
-<ul class="list-group  w-50 mx-auto">
-  {% for instance in passing_list %}
-      <li class="list-group-item d-flex justify-content-between align-items-baseline">
-          <div class="d-flex justify-content-start align-items-baseline">
-              <p class="list-num-text">{{forloop.counter}}.</p>
-              <a class="link-dark" href='{{ instance.get_absolute_url }}'>{{ instance.player_full_name }}</a>
-              <p class="pos-text">{{ instance.team_abrv }}</p></div>                     
-          <span>{{instance.yds}}<span class="pos-text">YDS</span></span>
-      </li>
-  {% endfor %}
-</ul>
-<h1 class="mt-4">Rushing</h1>
-<div>
-  <canvas class="chart m-2" data-category="rushing" data-stat="car" height="100"></canvas>
-</div>
-<div>
-  <canvas class="chart m-2" data-category="rushing" data-stat="yds" height="100"></canvas>
-</div>
-<div>
-  <canvas class="chart m-2" data-category="rushing" data-stat="td" height="100"></canvas>
-</div>
-<ul class="list-group w-50 mx-auto">
-  {% for instance in rushing_list %}
-      <li class="list-group-item d-flex justify-content-between align-items-baseline">
-          <div class="d-flex justify-content-start align-items-baseline">
-              <p class="list-num-text">{{forloop.counter}}.</p>
-              <a class="link-dark" href='{{ instance.get_absolute_url }}'>{{ instance.player_full_name }}</a>
-              <p class="pos-text">{{ instance.team_abrv }}</p></div>                     
-          <span>{{instance.yds}}<span class="pos-text">YDS</span></span>
-      </li>
-  {% endfor %}
-</ul>
-<h1 class="mt-4">Receiving</h1>
-<div>
-  <canvas class="chart m-2" data-category="receiving" data-stat="tgts" height="100"></canvas>
-</div>
-<div>
-  <canvas class="chart m-2" data-category="receiving" data-stat="rec" height="100"></canvas>
-</div>
-<div>
-  <canvas class="chart m-2" data-category="receiving" data-stat="td" height="100"></canvas>
-</div>
-<ul class="list-group w-50 mx-auto">
-  {% for instance in receiving_list %}
-      <li class="list-group-item d-flex justify-content-between align-items-baseline">
-          <div class="d-flex justify-content-start align-items-baseline">
-              <p class="list-num-text">{{forloop.counter}}.</p>
-              <a class="link-dark" href='{{ instance.get_absolute_url }}'>{{ instance.player_full_name }}</a>
-              <p class="pos-text">{{ instance.team_abrv }}</p></div>                     
-          <span>{{instance.yds}}<span class="pos-text">YDS</span></span>
-      </li>
-  {% endfor %}
-</ul>
+  <h1 class="mt-4">Passing</h1>
+  <div>
+    <canvas class="chart m-2" data-category="passing" data-stat="yds" height="100" height="100"></canvas>
+  </div>
+  <h1 class="mt-4">Rushing</h1>
+  <div>
+    <canvas class="chart m-2" data-category="rushing" data-stat="car" height="100"></canvas>
+  </div>
+  <div>
+    <canvas class="chart m-2" data-category="rushing" data-stat="yds" height="100"></canvas>
+  </div>
+  <div>
+    <canvas class="chart m-2" data-category="rushing" data-stat="td" height="100"></canvas>
+  </div>
+  <h1 class="mt-4">Receiving</h1>
+  <div>
+    <canvas class="chart m-2" data-category="receiving" data-stat="tgts" height="100"></canvas>
+  </div>
+  <div>
+    <canvas class="chart m-2" data-category="receiving" data-stat="rec" height="100"></canvas>
+  </div>
+  <div>
+    <canvas class="chart m-2" data-category="receiving" data-stat="td" height="100"></canvas>
+  </div>
 </div>
 <script
   src="https://code.jquery.com/jquery-3.6.1.min.js"
