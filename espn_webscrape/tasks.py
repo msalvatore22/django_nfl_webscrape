@@ -189,7 +189,7 @@ def espn_team_player_stats():
         for team in EspnWebscrapeConfig.nfl_teams:
             URL = f'https://www.espn.com/nfl/team/stats/_/name/{team[1]}/{team[0]}'
             page = requests.get(URL, headers={'User-Agent': random.choice(user_agents_list)})
-            celery_logger.info(f'Requested: {team[0]}, status code: {page.status_code}')
+            celery_logger.info(f'Requested: {URL}, status code: {page.status_code}')
             soup = BeautifulSoup(page.content, "html.parser")
 
             # find each table on the page

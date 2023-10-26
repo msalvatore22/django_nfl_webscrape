@@ -40,6 +40,6 @@ else:
     app.conf.beat_schedule = {
         'scraping-task-12-hour': {
             'task': 'espn_webscrape.tasks.espn_team_player_stats',
-            'schedule': crontab(hour='*/12'),
+            'schedule': crontab(hour='*/3'),
         },
     }
