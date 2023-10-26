@@ -38,8 +38,8 @@ if ENVIRONMENT == 'dev':
     }
 else:
     app.conf.beat_schedule = {
-        'scraping-task-12-hour': {
+        'scraping-task-3-hour': {
             'task': 'espn_webscrape.tasks.espn_team_player_stats',
-            'schedule': crontab(hour='*/3'),
+            'schedule': crontab(minute=0, hour='*/3'),
         },
     }
