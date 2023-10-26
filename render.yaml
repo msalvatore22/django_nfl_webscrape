@@ -1,7 +1,7 @@
 services:
   - type: worker
     name: celery
-    region: oregon
+    region: ohio
     plan: starter
     env: python
     buildCommand: "pip install -r ./requirements/production.txt"
@@ -9,7 +9,7 @@ services:
     autoDeploy: false
   - type: worker
     name: celery-beat
-    region: oregon
+    region: ohio
     plan: starter
     env: python
     buildCommand: "pip install -r ./requirements/production.txt"
