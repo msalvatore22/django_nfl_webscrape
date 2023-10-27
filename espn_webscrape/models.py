@@ -1,8 +1,14 @@
 from django.db import models
 from django.urls import reverse
 
+class TimeStampedModel(models.Model):
+  updated_at = models.DateTimeField(auto_now=True)
+
+  class Meta:
+      abstract = True
+
 # Create your models here.
-class EspnPassingStats(models.Model):
+class EspnPassingStats(TimeStampedModel):
   class Meta:
     db_table = 'espn_passing_stats'
     constraints = [
@@ -29,7 +35,7 @@ class EspnPassingStats(models.Model):
   def get_absolute_url(self):
     return reverse("espn_webscrape:passing-detail", kwargs={"id": self.id})
 
-class EspnReceivingStats(models.Model):
+class EspnReceivingStats(TimeStampedModel):
   class Meta:
     db_table = 'espn_receiving_stats'
     constraints = [
@@ -56,7 +62,7 @@ class EspnReceivingStats(models.Model):
   def get_absolute_url(self):
     return reverse("espn_webscrape:receiving-detail", kwargs={"id": self.id})
 
-class EspnRushingStats(models.Model):
+class EspnRushingStats(TimeStampedModel):
   class Meta:
     db_table = 'espn_rushing_stats'
     constraints = [
@@ -81,7 +87,7 @@ class EspnRushingStats(models.Model):
   def get_absolute_url(self):
     return reverse("espn_webscrape:rushing-detail", kwargs={"id": self.id})
   
-class EspnDefenseStats(models.Model):
+class EspnDefenseStats(TimeStampedModel):
   class Meta:
     db_table = 'espn_defense_stats'
     constraints = [

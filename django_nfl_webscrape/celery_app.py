@@ -31,15 +31,11 @@ if ENVIRONMENT == 'dev':
             'task': 'espn_webscrape.tasks.espn_team_player_stats',
             'schedule': crontab(minute='*/30'),
         },
-        # 'scraping-task-12-hour': {
-        #     'task': 'espn_webscrape.tasks.espn_team_player_stats',
-        #     'schedule': crontab(hour='*/12'),
-        # },
     }
 else:
     app.conf.beat_schedule = {
-        'scraping-task-3-hour': {
+        'scraping-task-1am': {
             'task': 'espn_webscrape.tasks.espn_team_player_stats',
-            'schedule': crontab(minute=0, hour='*/3'),
+            'schedule': crontab(hour='1'),
         },
     }

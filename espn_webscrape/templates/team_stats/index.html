@@ -2,73 +2,85 @@
 
 {% block content %}
 <div class="text-center">
-  <h1 class="mt-4">Passing</h1>
+  <h1 class="mt-4">Receiving</h1>
   <div>
-    <canvas class="chart m-2" data-category="passing" data-stat="yds" height="100" height="100"></canvas>
+    <canvas class="chart my-4" data-category="receiving" data-stat="tgts" height="75"></canvas>
+  </div>
+  <div>
+    <canvas class="chart my-4" data-category="receiving" data-stat="rec" height="75"></canvas>
+  </div>
+  <div>
+    <canvas class="chart my-4" data-category="receiving" data-stat="td" height="75"></canvas>
   </div>
   <h1 class="mt-4">Rushing</h1>
   <div>
-    <canvas class="chart m-2" data-category="rushing" data-stat="car" height="100"></canvas>
+    <canvas class="chart my-4" data-category="rushing" data-stat="car" height="75"></canvas>
   </div>
   <div>
-    <canvas class="chart m-2" data-category="rushing" data-stat="yds" height="100"></canvas>
+    <canvas class="chart my-4" data-category="rushing" data-stat="yds" height="75"></canvas>
   </div>
   <div>
-    <canvas class="chart m-2" data-category="rushing" data-stat="td" height="100"></canvas>
-  </div>
-  <h1 class="mt-4">Receiving</h1>
-  <div>
-    <canvas class="chart m-2" data-category="receiving" data-stat="tgts" height="100"></canvas>
-  </div>
-  <div>
-    <canvas class="chart m-2" data-category="receiving" data-stat="rec" height="100"></canvas>
-  </div>
-  <div>
-    <canvas class="chart m-2" data-category="receiving" data-stat="td" height="100"></canvas>
+    <canvas class="chart my-4" data-category="rushing" data-stat="td" height="75"></canvas>
   </div>
 </div>
-<script
-  src="https://code.jquery.com/jquery-3.6.1.min.js"
-  integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
-  crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0/dist/chart.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 <script>
-    $(function () {
-      var $charts = $(".chart");
-      $charts.each(function(index) {
-        var category = $(this).attr('data-category')
-        var stat = $(this).attr('data-stat')
-        var ctx = $(this)[0].getContext("2d")
-        $.ajax({
-          url: window.location.pathname + '/' + category + '/' + stat,
-          success: function (data) {
 
+    async function getData(url){
+      const response = await fetch(url)
+      const data = await response.json()
+      return data
+    }
+
+    (
+      function() {
+
+        const charts = document.querySelectorAll(".chart")
+        charts.forEach(element => {
+          const category = element.getAttribute('data-category')
+          const stat = element.getAttribute('data-stat')
+          const ctx = element.getContext("2d")
+          const url = window.location.pathname + '/' + category + '/' + stat
+
+          getData(url).then(data => {
             new Chart(ctx, {
               type: 'bar',
               data: {
-                labels: data.labels,
+                labels: data["labels"],
                 datasets: [{
                   label: stat.toLocaleUpperCase(),
-                  backgroundColor: data.color,
-                  data: data.data
+                  backgroundColor: data["color"],
+                  data: data["data"]
                 }]          
               },
               plugins: [ChartDataLabels],
               options: {
+                plugins: {
+                  legend: {
+                    position: 'left'
+                  }
+                },
                 responsive: true,
-                legend: {
-                  position: 'top',
+                scales: {
+                  y: {
+                    grid: {
+                      color: '#343a40'
+                    },
+                    title: {
+                      display: true
+                    }
+                  },
+                  x: {
+                    grid: {
+                      color: '#343a40',
+                    }
+                  }
                 }
               }
             });
-
-        }
-      });
-        
-      });
-
-  });
+          })         
+        });
+      }
+    )()
 
 </script>
 

@@ -15,10 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from .views import home_view
+from .views import home_view, custom_page_not_found_view
+
+
+handler404 = custom_page_not_found_view
 
 urlpatterns = [
     path('espn/', include('espn_webscrape.urls')),
     path('', home_view, name='home'), # homepage
     path('admin/', admin.site.urls),
 ]
+

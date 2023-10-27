@@ -14,11 +14,8 @@ from .views import (
     team_stats_api_view
 )
 
-# from .views import passing_list_view
-
 app_name = 'espn_webscrape'
 urlpatterns = [
-    path('', index_view),
     path('player_stats/', player_stats_index_view),
     path('player_stats/qb/', qb_list_view, name='qb-list'),
     path('player_stats/rb/', rb_list_view, name='rb-list'),

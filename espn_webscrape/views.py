@@ -156,10 +156,10 @@ def team_stats_api_view(request, *args, **kwargs):
         color = 'rgb(158, 197, 254, 0.8)'
     elif category == 'receiving':
         table = EspnReceivingStats
-        color = 'rgb(110, 223, 246, 0.8)'
+        color = 'rgb(158, 234, 249, 0.8)'
     elif category == 'rushing':
         table = EspnRushingStats
-        color = 'rgb(121, 223, 193, 0.8)'
+        color = 'rgb(166, 233, 213, 0.8)'
     elif category == 'defense':
         table = EspnDefenseStats
         color = 'rgb(254, 178, 114, 0.8)'

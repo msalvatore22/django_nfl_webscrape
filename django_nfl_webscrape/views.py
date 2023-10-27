@@ -45,4 +45,9 @@ def home_view(request, *args, **kwargs):
   }
   return render(request, "home.html", my_context)
 
+def custom_page_not_found_view(request, exception=None):
+  response = render(request, "errors/404.html", {})
+  response.status_code = 404
+  return response
+
 

@@ -24,23 +24,10 @@ celery_logger = get_task_logger(__name__)
 import logging
 logger = logging.getLogger(__name__)
 
-# # persisting data
-# @shared_task
-
-def save_espn_stats(espn_stat_dict):
-    logger.info(f"Save ESPN Stats initiated.")
-    logger.info(espn_stat_dict.keys())
-
-    passing_list = espn_stat_dict['Passing']
-    logger.info(passing_list[0].keys())
-    receiving_list = espn_stat_dict["Receiving"]
-    logger.info(receiving_list[0].keys())
-    rushing_list = espn_stat_dict["Rushing"]
-    logger.info(rushing_list[0].keys())
-    defense_list = espn_stat_dict["Defense"]
-    logger.info(defense_list[0].keys())
-
-    for pass_stat in passing_list:
+# persisting data
+def save_passing_stats(table_title, stat_dict_list, team):
+    logger.info(f'Persisting {table_title} stats for {team} for {len(stat_dict_list)} players.')
+    for pass_stat in stat_dict_list:
         try:
             udpated_values = {
                 "player_full_name": pass_stat["Player Name"],
@@ -72,8 +59,10 @@ def save_espn_stats(espn_stat_dict):
                 logger.error(f'Failed to persist passing stat:\n {json.dumps(pass_stat, indent=2)}')
                 logger.error(e)
                 continue
-    
-    for rec_stat in receiving_list:
+
+def save_receiving_stats(table_title, stat_dict_list, team):
+    logger.info(f'Persisting {table_title} stats for {team} for {len(stat_dict_list)} players.')
+    for rec_stat in stat_dict_list:
         try:
             udpated_values = {
                 "player_full_name": rec_stat["Player Name"],
@@ -105,8 +94,10 @@ def save_espn_stats(espn_stat_dict):
                 logger.error(f'Failed to persist receiving stat:\n {json.dumps(rec_stat, indent=2)}')
                 logger.error(e)
                 continue
-    
-    for rush_stat in rushing_list:
+
+def save_rushing_stats(table_title, stat_dict_list, team):
+    logger.info(f'Persisting {table_title} stats for {team} for {len(stat_dict_list)} players.')
+    for rush_stat in stat_dict_list:
         try:
             udpated_values = {
                 "player_full_name": rush_stat["Player Name"],
@@ -136,8 +127,10 @@ def save_espn_stats(espn_stat_dict):
                 logger.error(f'Failed to persist rushing stat:\n {json.dumps(rush_stat, indent=2)}')
                 logger.error(e)
                 continue
-    
-    for def_stat in defense_list:
+
+def save_defense_stats(table_title, stat_dict_list, team):
+    logger.info(f'Persisting {table_title} stats for {team} for {len(stat_dict_list)} players.')
+    for def_stat in stat_dict_list:
         try:
             udpated_values = {
                 "player_full_name": def_stat["Player Name"],
@@ -167,25 +160,30 @@ def save_espn_stats(espn_stat_dict):
                 pos =  def_stat["POS"],
                 defaults=udpated_values
             )
+
         except Exception as e:
                 logger.error(f'Failed to persist defense stat:\n {json.dumps(def_stat, indent=2)}')
                 logger.error(e)
                 continue
 
+save_stats_map = {
+    "Passing": save_passing_stats,
+    "Receiving": save_receiving_stats,
+    "Rushing": save_rushing_stats,
+    "Defense": save_defense_stats
+}
+
 # webscraping
 @shared_task
 def espn_team_player_stats():
     celery_logger.info(f"ESPN NFL Web Scrape Initiated")
-
-    # store the dataframes in an object where the key is the title of the table (i.e 'Passing')
-    espn_stat_dict = defaultdict(list)
     user_agents_list = [
         'Mozilla/5.0 (iPad; CPU OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148',
         'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.83 Safari/537.36',
         'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36'
     ]
-    try:
 
+    try:
         for team in EspnWebscrapeConfig.nfl_teams:
             URL = f'https://www.espn.com/nfl/team/stats/_/name/{team[1]}/{team[0]}'
             page = requests.get(URL, headers={'User-Agent': random.choice(user_agents_list)})
@@ -252,13 +250,14 @@ def espn_team_player_stats():
                     # add team column
                     df["TEAM"] = team[1].upper()
                     df["TEAM_FULL"] = team[0].replace('-', ' ').title()
-
+                    
+                    # dataframe to list of dict
                     df_to_dict = df.to_dict('records')
+                    # send list of dict to appropriate persistance function
+                    save_stats_map[table_title](table_title=table_title, stat_dict_list=df_to_dict, team=team[0])
 
-                    espn_stat_dict[table_title].extend(df_to_dict)
             celery_logger.info("Waiting 10 seconds to request the next url.")
             time.sleep(10)
-        return save_espn_stats(espn_stat_dict)
     except Exception as e:
         celery_logger.error('The nfl web scrape job failed. See exception:')
         celery_logger.error(e)

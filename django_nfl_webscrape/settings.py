@@ -164,7 +164,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = 'static/'
 STATICFILES_DIRS = [ Path.joinpath(BASE_DIR,'static') ]
 
 # Following settings only make sense on production and may break development environments.
@@ -176,9 +176,7 @@ if ENVIRONMENT == "prod":
     # Turn on WhiteNoise storage backend that takes care of compressing static files
     # and creating unique names for each version so they can safely be cached forever.
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-else:
-    
-    STATIC_ROOT = Path.joinpath(BASE_DIR, 'assets')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
