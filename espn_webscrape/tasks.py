@@ -23,6 +23,7 @@ celery_logger = get_task_logger(__name__)
 # django logging
 import logging
 logger = logging.getLogger(__name__)
+from pprint import pformat
 
 # persisting data
 def save_passing_stats(table_title, stat_dict_list, team):
@@ -55,6 +56,8 @@ def save_passing_stats(table_title, stat_dict_list, team):
                 pos = pass_stat["POS"],
                 defaults=udpated_values
             )
+            if created:
+                logger.info(f'New Player Created:\n {pformat(obj.__dict__)}')
         except Exception as e:
                 logger.error(f'Failed to persist passing stat:\n {json.dumps(pass_stat, indent=2)}')
                 logger.error(e)
@@ -90,6 +93,8 @@ def save_receiving_stats(table_title, stat_dict_list, team):
                 pos = rec_stat["POS"],
                 defaults=udpated_values
             )
+            if created:
+                logger.info(f'New Player Created:\n {pformat(obj.__dict__)}')
         except Exception as e:
                 logger.error(f'Failed to persist receiving stat:\n {json.dumps(rec_stat, indent=2)}')
                 logger.error(e)
@@ -123,6 +128,8 @@ def save_rushing_stats(table_title, stat_dict_list, team):
                 pos = rush_stat["POS"],
                 defaults=udpated_values
             )
+            if created:
+                logger.info(f'New Player Created:\n {pformat(obj.__dict__)}')
         except Exception as e:
                 logger.error(f'Failed to persist rushing stat:\n {json.dumps(rush_stat, indent=2)}')
                 logger.error(e)
@@ -160,7 +167,8 @@ def save_defense_stats(table_title, stat_dict_list, team):
                 pos =  def_stat["POS"],
                 defaults=udpated_values
             )
-
+            if created:
+                logger.info(f'New Player Created:\n {pformat(obj.__dict__)}')
         except Exception as e:
                 logger.error(f'Failed to persist defense stat:\n {json.dumps(def_stat, indent=2)}')
                 logger.error(e)
@@ -256,7 +264,6 @@ def espn_team_player_stats():
                     # send list of dict to appropriate persistance function
                     save_stats_map[table_title](table_title=table_title, stat_dict_list=df_to_dict, team=team[0])
 
-            celery_logger.info("Waiting 10 seconds to request the next url.")
             time.sleep(10)
     except Exception as e:
         celery_logger.error('The nfl web scrape job failed. See exception:')
