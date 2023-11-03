@@ -41,6 +41,6 @@ else:
     app.conf.beat_schedule = {
         'scraping-task-midnight': {
             'task': 'espn_webscrape.tasks.espn_team_player_stats',
-            'schedule': crontab(minute=0, hour=14),
+            'schedule': crontab(minute=0, hour=4),
         },
     }
